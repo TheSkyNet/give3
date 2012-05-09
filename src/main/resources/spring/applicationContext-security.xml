@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!-- tag usage is here: http://static.springsource.org/spring-security/site/docs/3.0.x/reference/appendix-namespace.html -->
+    <!-- recommend against using the intercept-url tag because it's order-dependent and prone to break -->
+    <http auto-config="true" use-expressions="true">
+        <form-login login-page="/login" authentication-failure-url="/login?login_error=1" />
+        <access-denied-handler error-page="/accessDenied" />
+        <remember-me />
+        <logout />
+    </http>
+
+    <!-- can generate new password hashes with http://md5-hash-online.waraxe.us/ -->
+    <!-- datasource here links to a database with minimum schema defined like so... -->
+    <!-- http://static.springsource.org/spring-security/site/docs/3.0.x/reference/appendix-schema.html -->
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource"/>
+            <password-encoder hash="md5"/>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>
