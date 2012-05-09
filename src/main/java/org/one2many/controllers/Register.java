@@ -1,4 +1,4 @@
-package org.one2many.register;
+package org.one2many.controllers;
 
 
 import java.util.HashMap;

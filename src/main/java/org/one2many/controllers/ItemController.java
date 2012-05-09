@@ -1,4 +1,4 @@
-package org.one2many.item;
+package org.one2many.controllers;
 
 import java.security.Principal;
 import java.util.List;

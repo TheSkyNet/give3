@@ -1,4 +1,4 @@
-package org.one2many.item;
+package org.one2many.controllers;
 
 import javax.mail.MessagingException;
 

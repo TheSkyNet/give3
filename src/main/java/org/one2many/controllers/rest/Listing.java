@@ -1,4 +1,4 @@
-package org.one2many.rest;
+package org.one2many.controllers.rest;
 
 import java.io.IOException;
 import java.security.Principal;

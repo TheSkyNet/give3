@@ -1,4 +1,4 @@
-package org.one2many.generate;
+package org.one2many.controllers;
 
 import org.one2many.dao.KarmaKashDao;
 import org.springframework.beans.factory.annotation.Autowired;
