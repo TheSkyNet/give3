@@ -30,7 +30,7 @@
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
             <property name="dataSource" ref="dataSource" />
-            <property name="packagesToScan" value="org.one2many.domain" />
+            <property name="packagesToScan" value="org.give3.domain" />
             <property name="schemaUpdate" value="true" />
             <property name="hibernateProperties">
                     <props>
@@ -40,7 +40,7 @@
             </property>
     </bean>
 
-   <bean id="emailService" class="org.one2many.email.EmailServiceSMTP">
+   <bean id="emailService" class="org.give3.email.EmailServiceSMTP">
        <constructor-arg index="0" value="${email.username}"/>
        <constructor-arg index="1" value="${email.password}"/>
        <constructor-arg index="2" value="${email.host}"/>

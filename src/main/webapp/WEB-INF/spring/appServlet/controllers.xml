@@ -13,6 +13,6 @@
 	<!-- Maps '/' requests to the 'home' view -->
 	<mvc:view-controller path="/" view-name="index"/>
 	
-	<context:component-scan base-package="org.one2many.controllers" />
+	<context:component-scan base-package="org.give3.controllers" />
 	 
 </beans>

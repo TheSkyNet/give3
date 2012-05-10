@@ -29,15 +29,15 @@
         p:sessionFactory-ref="sessionFactory" />
 
     <bean id="karmakashDao"
-        class="org.one2many.dao.KarmaKashDaoDefault"
+        class="org.give3.dao.KarmaKashDaoDefault"
         p:sessionFactory-ref="sessionFactory"/>
         
     <bean id="itemDao"
-        class="org.one2many.dao.ItemDaoDefault"
+        class="org.give3.dao.ItemDaoDefault"
         p:sessionFactory-ref="sessionFactory"/>
 
     <bean id="personDao"
-        class="org.one2many.dao.DefaultPersonDao"
+        class="org.give3.dao.DefaultPersonDao"
         p:sessionFactory-ref="sessionFactory"/>
         
     <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer" />

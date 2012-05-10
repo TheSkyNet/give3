@@ -13,7 +13,7 @@
     <!-- a session factory configured to use HSQLDB -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="org.one2many.domain" />
+        <property name="packagesToScan" value="org.give3.domain" />
         <property name="schemaUpdate" value="true" />
         <property name="hibernateProperties">
             <props>
