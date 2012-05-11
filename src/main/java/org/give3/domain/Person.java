@@ -46,13 +46,10 @@ public class Person implements Serializable {
     @Size(max=32, min=32, message="Password must be a 32-length hex MD5 hash")
     private String password = "";
 
+    // TODO add not null and email format constraints
     @Basic
     private String email = "";
 
-    /**
-     * Postgres was having trouble with Boolean (even though it created the schema!)
-     * but boolean seems to work fine
-     */
     @Basic
     private boolean enabled = true;
 
@@ -68,11 +65,16 @@ public class Person implements Serializable {
     @NumberFormat(style = Style.NUMBER)
     private Integer balance = new Integer(1);
     
-    public Person()
-    {
+    public Person()  {
         
     }
-
+    
+    public Person(String uname, String pword, int newbalance) {
+        username = uname;
+        password=pword;
+        balance = newbalance;
+    }
+    
     public String getEmail() {
         return email;
     }

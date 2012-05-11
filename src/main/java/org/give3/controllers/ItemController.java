@@ -95,6 +95,10 @@ public class ItemController {
    }
 
 
+   // TODO put page controllers in a logical page structure
+   
+   // TODO can id and principle be automatically mapped to Item and Person, and those passed to the controller?
+   
    @PreAuthorize("isAuthenticated()")
    @RequestMapping(value="buy/{id}", method=RequestMethod.GET) 
    public ModelAndView getCheckoutPage(Model model, @PathVariable Long id, Principal principal) {
@@ -110,6 +114,25 @@ public class ItemController {
       model.addAttribute("user", user);
 
       return new ModelAndView("checkout", model.asMap());
+      
+   }
+   
+   @PreAuthorize("isAuthenticated()")
+   @RequestMapping(value="buy/{id}", method=RequestMethod.POST) 
+   public ModelAndView postCheckoutPage(Model model, @PathVariable Long id, Principal principal) {
+
+      // TODO handle if you don't have enough in your account balance
+      // TODO handle if item doesn't exist
+      // TODO if item has already been purchased
+      
+      Item item = dao.getById(id);
+      Person user = personDao.getUser(principal.getName());
+
+      
+      model.addAttribute("item", item);
+      model.addAttribute("user", user);
+
+      return new ModelAndView("orderComplete", model.asMap());
       
    }
    

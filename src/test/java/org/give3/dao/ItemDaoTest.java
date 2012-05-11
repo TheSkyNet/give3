@@ -2,8 +2,8 @@ package org.give3.dao;
 
 import static org.junit.Assert.assertEquals;
 
-import org.give3.dao.ItemDao;
 import org.give3.domain.Item;
+import org.give3.domain.Person;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +26,17 @@ public class ItemDaoTest {
    @Autowired
    private ItemDao dao;
    
+   @Autowired
+   private PersonDao personDao;
+   
    @Before
    public void setup() {
       Item item = new Item();
       item.setName("new item");
       item.setDescription("description here");
+      item.setValue(8);
       dao.createItem(item);
+      personDao.createNewUser(new Person("jay", "baba327d241746ee0829e7e88117d4d5", 1000000));
       flushAndClear();
    }
    
@@ -45,6 +50,21 @@ public class ItemDaoTest {
       dao.getSessionFactory().getCurrentSession().clear();
    }
 
+   @Test
+   @Transactional
+   public void placeOrder() throws Exception {
+      
+      Item firstItem = dao.getPage(0, 1).iterator().next();
+      Person user = personDao.getUser("jay");
+      assertEquals(0, user.getOrders().size());
+      
+      dao.createOrder(user, firstItem);
+      flushAndClear();
+      
+      user = personDao.getUser("jay");
+      assertEquals(1, user.getOrders().size());
+      
+   }
    
    @Test
    @Transactional

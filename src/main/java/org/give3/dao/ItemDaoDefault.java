@@ -3,6 +3,8 @@ package org.give3.dao;
 import java.util.List;
 
 import org.give3.domain.Item;
+import org.give3.domain.Person;
+import org.give3.domain.PurchaseOrder;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,6 +65,17 @@ public class ItemDaoDefault implements ItemDao {
        session.flush();
    }
    
+   @Transactional
+   @Override
+   public void createOrder(Person user, Item item) {
+      Session session = sessionFactory.getCurrentSession();
+      PurchaseOrder order = new PurchaseOrder();
+      order.setItem(item);
+      order.setUser(user);
+      session.save(order);
+      session.flush();
+   }
+   
    @Override
    public SessionFactory getSessionFactory() {
       return sessionFactory;
@@ -71,5 +84,5 @@ public class ItemDaoDefault implements ItemDao {
    public void setSessionFactory(SessionFactory sessionFactory) {
       this.sessionFactory = sessionFactory;
    }
-
+   
 }
