@@ -10,6 +10,7 @@ import org.give3.dao.ItemDao;
 import org.give3.dao.PersonDao;
 import org.give3.domain.Item;
 import org.give3.domain.Person;
+import org.give3.domain.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -104,9 +105,9 @@ public class ItemController {
    public ModelAndView getCheckoutPage(Model model, @PathVariable Long id, Principal principal) {
 
       // TODO handle if you don't have enough in your account balance
+
       // TODO handle if item doesn't exist
-      // TODO if item has already been purchased
-      
+
       Item item = dao.getById(id);
       Person user = personDao.getUser(principal.getName());
       
@@ -121,19 +122,22 @@ public class ItemController {
    @RequestMapping(value="buy/{id}", method=RequestMethod.POST) 
    public ModelAndView postCheckoutPage(Model model, @PathVariable Long id, Principal principal) {
 
-      // TODO handle if you don't have enough in your account balance
       // TODO handle if item doesn't exist
-      // TODO if item has already been purchased
-      
+
       Item item = dao.getById(id);
       Person user = personDao.getUser(principal.getName());
 
+      if(item.getPurchaseOrder() != null) {
+         return new ModelAndView("alreadyPurchased", model.asMap());
+      }
       
-      model.addAttribute("item", item);
-      model.addAttribute("user", user);
-
+      if(user.getBalance() < item.getValue()) {
+         return new ModelAndView("insufficientFunds", model.asMap());
+      }
+      
+      PurchaseOrder order = dao.createOrder(user, item);
+      model.addAttribute("order", order);
       return new ModelAndView("orderComplete", model.asMap());
-      
    }
    
    @PreAuthorize("hasRole('ROLE_ADMIN')")

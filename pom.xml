@@ -305,7 +305,7 @@
                 </configuration>
               <executions>
                 <execution>
-                  <phase>install</phase>
+                  <phase>compile</phase>
                   <id>hsqldb-schema.sql</id>
                   <goals>
                     <goal>hbm2ddl</goal>

@@ -1,5 +1,6 @@
 package org.give3.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.give3.domain.Item;
@@ -25,12 +26,16 @@ public class ItemDaoDefault implements ItemDao {
 
    private HibernateUnProxifier<Item> accountUnproxifier = new HibernateUnProxifier<Item>();
 
+   /**
+    * @return paged set of unpurchased items.
+    */
    @Override
    @Transactional
    @SuppressWarnings("unchecked")
    public List<Item> getPage(int start, int pageSize) {
       Session session = sessionFactory.getCurrentSession();
       List<Item> items = (List<Item>) getAll.getExecutableCriteria(session)
+                                                .add(Restrictions.isNull("purchaseOrder"))
                                                 .setFirstResult(start)
                                                 .setMaxResults(pageSize)
                                                 .list();
@@ -67,13 +72,19 @@ public class ItemDaoDefault implements ItemDao {
    
    @Transactional
    @Override
-   public void createOrder(Person user, Item item) {
+   public PurchaseOrder createOrder(Person user, Item item) {
       Session session = sessionFactory.getCurrentSession();
       PurchaseOrder order = new PurchaseOrder();
-      order.setItem(item);
+      order.setItems(Collections.singleton(item));
       order.setUser(user);
+      user.setBalance(user.getBalance() - item.getValue());
+      user.getOrders().add(order);
+      item.setPurchaseOrder(order);
       session.save(order);
+      session.merge(item);
+      session.merge(user);
       session.flush();
+      return order;
    }
    
    @Override

@@ -6,7 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,7 +40,7 @@ public class Item {
    @Size(min = 1, max = 250)
    private String description = "";
    
-   @OneToOne(mappedBy="item")
+   @ManyToOne
    private PurchaseOrder purchaseOrder = null;
    
    @Basic

@@ -39,6 +39,7 @@ body {
 }
 
 
+
 /*******************************************************
 
 $MAIN PAGE LAYOUT*/
@@ -265,6 +266,23 @@ $ITEM
 
 .listing .header {
 	font-weight: bold;
+}
+
+button.buy {
+    background-color: yellowGreen;
+}
+button.buy a {
+	text-decoration: none;
+	color: black;
+}
+
+button.buy:hover {
+	background-color: #AFF;
+	text-decoration: none;
+}
+button.buy a:visited {
+	text-decoration: none;
+	color:black;
 }
 
 /***************************

@@ -18,7 +18,7 @@
 			<td>${item.description}</td>
 			<td>${item.value}</td>
 			<td><c:if test="${admin}" ><a href="/item/${item.id}">Edit Item</a></c:if></td>
-			<td><button><a href="/item/buy/${item.id}">Buy Now</a></button></td>
+			<td><button class="bordered buy"><a href="/item/buy/${item.id}">Buy Now</a></button></td>
 		</tr>
 	</c:forEach>
 </table>

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -62,8 +63,9 @@ public class Person implements Serializable {
 
     @Basic
     @NotNull
+    @Min(value=0)
     @NumberFormat(style = Style.NUMBER)
-    private Integer balance = new Integer(1);
+    private Integer balance = new Integer(0);
     
     public Person()  {
         

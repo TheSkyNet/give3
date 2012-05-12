@@ -37,4 +37,5 @@
 		</script>
 	</div>
 </c:if>
+
 <%@include file="/WEB-INF/views/jspf/footer.jsp" %>

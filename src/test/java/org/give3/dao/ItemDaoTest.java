@@ -2,6 +2,10 @@ package org.give3.dao;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
+import javax.validation.ConstraintViolationException;
+
 import org.give3.domain.Item;
 import org.give3.domain.Person;
 import org.junit.Before;
@@ -36,7 +40,9 @@ public class ItemDaoTest {
       item.setDescription("description here");
       item.setValue(8);
       dao.createItem(item);
-      personDao.createNewUser(new Person("jay", "baba327d241746ee0829e7e88117d4d5", 1000000));
+      Person user = new Person("jay", "baba327d241746ee0829e7e88117d4d5", 1000000);
+      user.setBalance(10);
+      personDao.createNewUser(user);
       flushAndClear();
    }
    
@@ -63,6 +69,37 @@ public class ItemDaoTest {
       
       user = personDao.getUser("jay");
       assertEquals(1, user.getOrders().size());
+      assertEquals(2, user.getBalance().intValue());
+   }
+   
+   @Test(expected=ConstraintViolationException.class)
+   @Transactional
+   public void placeOrderExceedBalance() throws Exception {
+      
+      Item firstItem = dao.getPage(0, 1).iterator().next();
+      Person user = personDao.getUser("jay");
+      user.setBalance(1);
+      personDao.updatePerson(user);
+      dao.createOrder(user, firstItem);
+
+   }
+   
+   @Test
+   @Transactional
+   public void listUnpurchasedItems() throws Exception {
+      
+      // there's one item in stock
+      assertEquals(1, dao.getPage(0, 1).size());
+      
+      // someone buys it
+      Item firstItem = dao.getPage(0, 1).iterator().next();
+      Person user = personDao.getUser("jay");
+      dao.createOrder(user, firstItem);
+      flushAndClear();
+      
+      // the item doesn't appear in listings
+      List<Item> page = dao.getPage(0, 1);
+      assertEquals(0, page.size());
       
    }
    

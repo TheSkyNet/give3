@@ -1,6 +1,7 @@
 package org.give3.domain;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -10,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,9 +40,8 @@ public class PurchaseOrder {
 
    @Basic
 	@NotNull
-	@OneToOne()
-   @JoinColumn(name="item")
-	private Item item = null;
+	@OneToMany(mappedBy="purchaseOrder", targetEntity=Item.class)
+	private Set<Item> items = null;
 
    @ManyToOne()
    @JoinColumn(name="username")
@@ -58,6 +58,10 @@ public class PurchaseOrder {
    @NotNull
 	private Date date = new Date();
 
+   public PurchaseOrder() {
+      
+   }
+   
 	public Long getId() {
 		return id;
 	}
@@ -69,15 +73,15 @@ public class PurchaseOrder {
    /**
     * @return the item
     */
-   public Item getItem() {
-      return item;
+   public Set<Item> getItems() {
+      return items;
    }
 
    /**
     * @param item the item to set
     */
-   public void setItem(Item item) {
-      this.item = item;
+   public void setItems(Set<Item> item) {
+      this.items = item;
    }
 
    /**
