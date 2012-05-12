@@ -7,11 +7,13 @@ import org.give3.domain.Item;
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
 import org.hibernate.Criteria;
+import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 
 public class ItemDaoDefault implements ItemDao {
@@ -72,18 +74,45 @@ public class ItemDaoDefault implements ItemDao {
    
    @Transactional
    @Override
-   public PurchaseOrder createOrder(Person user, Item item) {
+   public PurchaseOrder createOrder(String userId, Long itemId) throws OrderFailedException {
+      
+      // TODO handle if item doesn't exist
+      
+      // TODO handle race conditions, would you use locks?
+      
+      // TODO re-use existing findBy code, handle session closing conditions
+      
       Session session = sessionFactory.getCurrentSession();
+      
+      Item item = (Item) session.createCriteria(Item.class)
+                                 .add(Restrictions.eq(Item.ID, itemId))
+                                 .uniqueResult();
+      
+      Person user = (Person) session.createQuery("select p from Person p where p.username=:name")
+                                    .setString("name", userId)
+                                    .uniqueResult();
+
+      // TODO would the validation API accomplish either of these checks?
+      
+      if(item.getPurchaseOrder() != null) {
+         throw new OrderFailedException("Item was already purchased");
+      }
+      
+      if(user.getBalance() < item.getValue()) {
+         throw new OrderFailedException("Insufficient funds");
+      }
+
       PurchaseOrder order = new PurchaseOrder();
       order.setItems(Collections.singleton(item));
       order.setUser(user);
       user.setBalance(user.getBalance() - item.getValue());
+
       user.getOrders().add(order);
       item.setPurchaseOrder(order);
       session.save(order);
       session.merge(item);
       session.merge(user);
-      session.flush();
+      
       return order;
    }
    

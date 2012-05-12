@@ -1,7 +1,7 @@
 <%@include file="/WEB-INF/views/jspf/header.jsp" %>
 
 <div class="about">
-<span>You have insufficient funds to perform this transaction.</span>
+<span>${message}</span>
 
 </div>
 

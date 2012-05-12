@@ -60,11 +60,10 @@ public class ItemDaoTest {
    @Transactional
    public void placeOrder() throws Exception {
       
-      Item firstItem = dao.getPage(0, 1).iterator().next();
       Person user = personDao.getUser("jay");
       assertEquals(0, user.getOrders().size());
       
-      dao.createOrder(user, firstItem);
+      dao.createOrder("jay", dao.getPage(0, 1).iterator().next().getId());
       flushAndClear();
       
       user = personDao.getUser("jay");
@@ -72,15 +71,26 @@ public class ItemDaoTest {
       assertEquals(2, user.getBalance().intValue());
    }
    
-   @Test(expected=ConstraintViolationException.class)
+   @Test(expected=OrderFailedException.class)
    @Transactional
    public void placeOrderExceedBalance() throws Exception {
       
-      Item firstItem = dao.getPage(0, 1).iterator().next();
       Person user = personDao.getUser("jay");
       user.setBalance(1);
       personDao.updatePerson(user);
-      dao.createOrder(user, firstItem);
+      dao.createOrder("jay", dao.getPage(0, 1).iterator().next().getId());
+
+   }
+   
+   @Test(expected=OrderFailedException.class)
+   @Transactional
+   public void placeOrderItemAlreadyPurchased() throws Exception {
+      
+      Long itemId = dao.getPage(0, 1).iterator().next().getId();
+      Person user = personDao.getUser("jay");
+
+      dao.createOrder("jay", itemId);
+      dao.createOrder("jay",itemId);
 
    }
    
@@ -89,16 +99,15 @@ public class ItemDaoTest {
    public void listUnpurchasedItems() throws Exception {
       
       // there's one item in stock
-      assertEquals(1, dao.getPage(0, 1).size());
+      List<Item> page = dao.getPage(0, 1);
+      assertEquals(1, page.size());
       
       // someone buys it
-      Item firstItem = dao.getPage(0, 1).iterator().next();
-      Person user = personDao.getUser("jay");
-      dao.createOrder(user, firstItem);
+      dao.createOrder("jay", dao.getPage(0, 1).iterator().next().getId());
       flushAndClear();
       
       // the item doesn't appear in listings
-      List<Item> page = dao.getPage(0, 1);
+      page = dao.getPage(0, 1);
       assertEquals(0, page.size());
       
    }

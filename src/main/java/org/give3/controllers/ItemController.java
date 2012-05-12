@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.give3.ajax.AjaxUtils;
 import org.give3.dao.ItemDao;
+import org.give3.dao.OrderFailedException;
 import org.give3.dao.PersonDao;
 import org.give3.domain.Item;
 import org.give3.domain.Person;
@@ -123,20 +124,16 @@ public class ItemController {
    public ModelAndView postCheckoutPage(Model model, @PathVariable Long id, Principal principal) {
 
       // TODO handle if item doesn't exist
-
-      Item item = dao.getById(id);
-      Person user = personDao.getUser(principal.getName());
-
-      if(item.getPurchaseOrder() != null) {
-         return new ModelAndView("alreadyPurchased", model.asMap());
-      }
       
-      if(user.getBalance() < item.getValue()) {
-         return new ModelAndView("insufficientFunds", model.asMap());
+      try {
+         PurchaseOrder order = dao.createOrder(principal.getName(), id);
+         model.addAttribute("order", order);
       }
-      
-      PurchaseOrder order = dao.createOrder(user, item);
-      model.addAttribute("order", order);
+      catch(OrderFailedException ofe) {
+         model.addAttribute("message", ofe.getMessage());
+         return new ModelAndView("orderFailed", model.asMap());
+      }
+
       return new ModelAndView("orderComplete", model.asMap());
    }
    
