@@ -44,24 +44,24 @@ I'm choosing here to avoid duplicate code in controllers, also this is more view
 </div>
 
 <div class="navigation" >
-	<a href="/">Home</a>
-	<a href="/donate">Donate</a>
-	<a href="/volunteer">Volunteer</a>
-	<a href="/item/listing">Buy</a>
-	<a href="/about">About</a>
+	<a class="link-button" href="/">Home</a>
+	<a class="link-button" href="/donate">Donate</a>
+	<a class="link-button" href="/volunteer">Volunteer</a>
+	<a class="link-button" href="/item/listing">Buy</a>
+	<a class="link-button" href="/about">About</a>
 </div>
 
 <c:if test="${authenticated}" >
 	<div class="authenticated-navigation">
-		<a href="/redeem">Redeem Coupons</a>
-		<a href="/account">Account</a>
+		<a class="link-button" href="/redeem">Redeem Coupons</a>
+		<a class="link-button" href="/account">Account</a>
 	</div>
 </c:if>
 
 <c:if test="${admin}" >
 	<div class="admin-navigation">
-		<a href="/item">Post Item</a>
-		<a href="/users">User Management</a>
+		<a class="link-button" href="/item">Post Item</a>
+		<a class="link-button" href="/users">User Management</a>
 	</div>
 </c:if>
 

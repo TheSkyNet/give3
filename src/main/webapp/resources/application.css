@@ -68,28 +68,18 @@ $MAIN PAGE LAYOUT*/
 	width: 100%;
 	background-color: #DDD;
 }
-.navigation > a {
-	margin: 5px;
-	display: inline-block;
-	font-size: 20px;
-	padding: 4px 10px;
-	color: black;
-    border: 1px solid gray;
-    border-radius: 5px;
-    -moz-border-radius: 5px; 
-    text-decoration: none;
-    text-align: center;
-    background-color: #AAAAAA; 
-}
-
-.navigation > a:hover {
-    background-color: #CCCCCC; 
-}
 
 .authenticated-navigation {
 	background-color: #EEEEEE; 
 }
-.authenticated-navigation a {
+
+.navigation .link-button {
+	font-size: 20px;
+	padding: 4px 10px;
+    background-color: #AAAAAA; 
+}
+
+.link-button {
 	margin: 5px;
 	display: inline-block;
 	font-size: 15px;
@@ -103,20 +93,13 @@ $MAIN PAGE LAYOUT*/
 	background-color: #CCC;
 }
 
-.authenticated-navigation > a:hover {
+.link-button:hover {
     background-color: #DDDDDD; 
 }
 
-.admin-navigation {
-	
+.link-button:visited {
+	color: black;
 }
-.admin-navigation a {
-	
-}
-.header > a:visited {
-    color: black;
-}
-
 
 .menu-button.current {
     border: 2px solid #992299;

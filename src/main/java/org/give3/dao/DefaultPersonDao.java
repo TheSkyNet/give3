@@ -1,12 +1,11 @@
 package org.give3.dao;
 
 
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import org.give3.domain.Item;
-import org.give3.domain.KarmaKash;
 import org.give3.domain.Person;
+import org.give3.domain.PurchaseOrder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -52,6 +51,16 @@ public class DefaultPersonDao implements PersonDao {
         Session session = sessionFactory.getCurrentSession();
         session.save(user);
         session.flush();
+    }
+    
+    @Transactional
+    @Override
+    public Set<PurchaseOrder> getOrders(String username) {
+       Person user = getUser(username);
+       
+       HibernateUnProxifier<List<PurchaseOrder>> orderUnproxifier = new HibernateUnProxifier<List<PurchaseOrder>>();
+       Set<PurchaseOrder> orders = orderUnproxifier.unproxy(user.getOrders());
+       return orders;
     }
 
     @Transactional
