@@ -95,6 +95,7 @@ $MAIN PAGE LAYOUT*/
 
 .link-button:hover {
     background-color: #DDDDDD; 
+    cursor: pointer;
 }
 
 .link-button:visited {

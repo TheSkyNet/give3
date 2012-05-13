@@ -8,7 +8,10 @@
                 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- this is HSQLDB by default-->
-    <jdbc:embedded-database id="dataSource"></jdbc:embedded-database>
+    <jdbc:embedded-database id="dataSource" >
+    <!-- doesn't work because it's a mysql script being run in HSQLDB, need a lot of changes -->
+<!--     	<jdbc:script location="classpath:test-data.sql"/> -->
+    </jdbc:embedded-database>
 
     <!-- a session factory configured to use HSQLDB -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">

@@ -54,7 +54,7 @@ public class Person implements Serializable {
     @Basic
     private boolean enabled = true;
 
-    @OneToMany(mappedBy="person", cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy="person", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Role> roles = new HashSet<Role>();
 

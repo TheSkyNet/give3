@@ -60,6 +60,7 @@ I'm choosing here to avoid duplicate code in controllers, also this is more view
 
 <c:if test="${admin}" >
 	<div class="admin-navigation">
+		<a class="link-button" href="/fulfillment">Fulfillment</a>
 		<a class="link-button" href="/item">Post Item</a>
 		<a class="link-button" href="/users">User Management</a>
 	</div>

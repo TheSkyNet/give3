@@ -96,7 +96,7 @@ public class ItemDaoTest {
    
    @Test
    @Transactional
-   public void listUnpurchasedItems() throws Exception {
+   public void listUnfulfilledItems() throws Exception {
       
       // there's one item in stock
       List<Item> page = dao.getPage(0, 1);

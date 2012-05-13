@@ -121,7 +121,7 @@ public class ItemController {
    
    @PreAuthorize("isAuthenticated()")
    @RequestMapping(value="buy/{id}", method=RequestMethod.POST) 
-   public ModelAndView postCheckoutPage(Model model, @PathVariable Long id, Principal principal) {
+   public ModelAndView buy(Model model, @PathVariable Long id, Principal principal) {
 
       // TODO handle if item doesn't exist
       

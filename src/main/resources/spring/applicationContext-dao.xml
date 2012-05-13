@@ -40,6 +40,10 @@
         class="org.give3.dao.DefaultPersonDao"
         p:sessionFactory-ref="sessionFactory"/>
         
+    <bean id="orderDao"
+        class="org.give3.dao.PurchaseOrderDao"
+        p:sessionFactory-ref="sessionFactory"/>
+        
     <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer" />
 
     
