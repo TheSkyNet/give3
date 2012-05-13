@@ -96,7 +96,23 @@ public class PurchaseOrderDaoTest {
       
    }
 
+   @Test
+   @Transactional
+   public void fulfillOrder() throws Exception {
+      List<PurchaseOrder> page;
+      
+      // there's one item in stock
+      itemDao.createOrder("jay", itemDao.getPage(0, 1).iterator().next().getId());
+      page = purchaseOrderDao.getPage(0, 1);
+      assertEquals(1, page.size());
 
+      // there is now a purchase order you can fulfill
+      long orderId = purchaseOrderDao.getPage(0, 1).iterator().next().getId();
+      purchaseOrderDao.fulfillOrder(orderId);
+      
+      page = purchaseOrderDao.getPage(0, 1);
+      assertEquals(0, page.size());
+   }
 
 
 }

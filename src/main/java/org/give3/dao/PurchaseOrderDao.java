@@ -39,6 +39,18 @@ public class PurchaseOrderDao {
       return orders;
    }
    
+   public void fulfillOrder(Long orderId) {
+      Session session = sessionFactory.getCurrentSession();
+      
+      PurchaseOrder order = (PurchaseOrder)getAll.getExecutableCriteria(session)
+                           .add(Restrictions.eq("id", orderId))
+                           .uniqueResult();
+      
+      order.setStatus(STATUS.FULFILLED);
+      session.update(order);
+
+   }
+   
    
    public SessionFactory getSessionFactory() {
       return sessionFactory;
