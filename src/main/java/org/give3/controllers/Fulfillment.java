@@ -26,11 +26,12 @@ public class Fulfillment {
    private PersonDao personDao;
    
    @PreAuthorize("hasRole('ROLE_ADMIN')")
-   @RequestMapping(value="{itemId}", method=RequestMethod.POST) 
-   public ModelAndView fullfillOrder(Model model, @PathVariable Long itemId) {
+   @RequestMapping(value="fulfill/{orderId}", method=RequestMethod.POST) 
+   public ModelAndView fullfillOrder(Model model, @PathVariable Long orderId) {
       
-
-      return new ModelAndView("/fulfillment", model.asMap());
+      orderDao.fulfillOrder(orderId);
+      
+      return new ModelAndView("redirect:/fulfillment", model.asMap());
    }
 
    @PreAuthorize("hasRole('ROLE_ADMIN')")

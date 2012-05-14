@@ -11,7 +11,7 @@
 			<td>${order.id}</td>
 			<td>${order.date}</td>
 			<td>${order.status}</td>
-			<td><a class="link-button">Fulfill</a></td>
+			<td><form method="post" action="/fulfillment/fulfill/${order.id}"><button class="link-button" type="submit">Fulfill</button></form></td>
 		</tr>
 	</c:forEach>
 </table>

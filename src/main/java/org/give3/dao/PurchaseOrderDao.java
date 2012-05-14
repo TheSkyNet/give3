@@ -39,6 +39,7 @@ public class PurchaseOrderDao {
       return orders;
    }
    
+   @Transactional
    public void fulfillOrder(Long orderId) {
       Session session = sessionFactory.getCurrentSession();
       
