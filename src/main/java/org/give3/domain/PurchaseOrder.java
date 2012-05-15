@@ -54,7 +54,6 @@ public class PurchaseOrder {
    private STATUS status = STATUS.UNFULFILLED;
    
    @Temporal(value=TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "S-")
    @NotNull
 	private Date date = new Date();
 
