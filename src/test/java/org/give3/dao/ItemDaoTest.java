@@ -58,6 +58,14 @@ public class ItemDaoTest {
 
    @Test
    @Transactional
+   public void count() throws Exception {
+
+      assertEquals(1, dao.getCount());
+
+   }
+   
+   @Test
+   @Transactional
    public void placeOrder() throws Exception {
       
       Person user = personDao.getUser("jay");

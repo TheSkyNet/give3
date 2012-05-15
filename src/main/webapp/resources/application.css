@@ -243,6 +243,10 @@ $LOGIN
 $ITEM
 */
 
+table tr {
+	border-bottom: thin solid #BBB;
+}
+
 .listing {
 	height: 400px;
 	width: 100%;

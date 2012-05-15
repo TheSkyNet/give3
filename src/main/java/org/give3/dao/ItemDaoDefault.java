@@ -7,13 +7,12 @@ import org.give3.domain.Item;
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
 import org.hibernate.Criteria;
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.ModelAndView;
 
 
 public class ItemDaoDefault implements ItemDao {
@@ -23,8 +22,11 @@ public class ItemDaoDefault implements ItemDao {
    /**
     *  this is a detached query
     *  http://docs.jboss.org/hibernate/core/3.3/reference/en/html/querycriteria.html#querycriteria-detachedqueries
+    *  
+    *  any methods you call on it are maintained for the next call, so if you call .add(Restrictions...) on it
+    *  inside each method call, the restrictions will be repeatedly (and uselessly) added each time.
     */
-   private DetachedCriteria getAll = DetachedCriteria.forClass(Item.class);
+   private DetachedCriteria getAvailable = DetachedCriteria.forClass(Item.class).add(Restrictions.isNull("purchaseOrder"));
 
    private HibernateUnProxifier<Item> accountUnproxifier = new HibernateUnProxifier<Item>();
 
@@ -36,10 +38,10 @@ public class ItemDaoDefault implements ItemDao {
    @SuppressWarnings("unchecked")
    public List<Item> getPage(int start, int pageSize) {
       Session session = sessionFactory.getCurrentSession();
-      List<Item> items = (List<Item>) getAll.getExecutableCriteria(session)
-                                                .add(Restrictions.isNull("purchaseOrder"))
+      List<Item> items = (List<Item>) getAvailable.getExecutableCriteria(session)
                                                 .setFirstResult(start)
                                                 .setMaxResults(pageSize)
+                                                .setFetchSize(pageSize)
                                                 .list();
       return items;
    }
@@ -114,6 +116,19 @@ public class ItemDaoDefault implements ItemDao {
       session.merge(user);
       
       return order;
+   }
+   
+   /**
+    * http://stackoverflow.com/questions/2160259/count-in-hibernate-criteria
+    */
+   @Override
+   @Transactional
+   public long getCount() {
+      Session session = sessionFactory.getCurrentSession();
+      return (Long)session.createCriteria(Item.class)
+                              .add(Restrictions.isNull("purchaseOrder"))
+                              .setProjection(Projections.rowCount())
+                              .uniqueResult();
    }
    
    @Override

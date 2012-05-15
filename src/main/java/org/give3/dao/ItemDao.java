@@ -20,4 +20,6 @@ public interface ItemDao {
    void updateItem(Item item);
 
    public PurchaseOrder createOrder(String userId, Long itemId) throws OrderFailedException;
+
+   public long getCount();
 }

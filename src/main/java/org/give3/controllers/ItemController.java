@@ -180,12 +180,19 @@ public class ItemController {
                                     @RequestParam(value="size", required=false, defaultValue="5") Integer size) 
    {
       
+      long total = dao.getCount();
+      int prevStart = start - size;
+      int nextStart = start + size;
       List<Item> items = dao.getPage(start, size);
       model.addAttribute("items", items);
-      model.addAttribute("prevStart", Math.max(start - size, 0));
+      model.addAttribute("prevStart", prevStart);
       model.addAttribute("start", start);
-      model.addAttribute("nextStart", start + size);
+      model.addAttribute("nextStart", nextStart);
       model.addAttribute("size", size);
+      model.addAttribute("total", total);
+      model.addAttribute("prevEnabled", prevStart >= 0);
+      model.addAttribute("nextEnabled", nextStart < total);
+      model.addAttribute("pageEnd", Math.min(nextStart, total));
       
       return new ModelAndView("listing", model.asMap());
    }

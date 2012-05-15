@@ -1,10 +1,11 @@
 <%@include file="/WEB-INF/views/jspf/header.jsp" %>
 <c:if test="${!ajaxRequest}">
 
-<button onclick="window.location.href='/item/listing?start=${prevStart}&size=${size}'">previous</button>
-<button onclick="window.location.href='/item/listing?start=${nextStart}&size=${size}'">next</button>
+<button <c:if test="${!prevEnabled}">disabled="true"</c:if> onclick="window.location.href='/item/listing?start=${prevStart}&size=${size}'">previous</button>
+<button <c:if test="${!nextEnabled}">disabled="true"</c:if> onclick="window.location.href='/item/listing?start=${nextStart}&size=${size}'">next</button>
+Showing ${start+1} to ${pageEnd} of ${total}
 <div class="vertically-scrollable listing bordered" >
-<table>
+<table cellspacing="0" frame="void" rules="rows">
 	<tr class="header">
 		<td>Name</td>
 		<td>Description</td>
