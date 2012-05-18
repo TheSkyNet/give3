@@ -49,7 +49,6 @@ public class Item {
 	private Integer value = new Integer(1);
 
    @Temporal(value=TemporalType.TIMESTAMP)
-	@DateTimeFormat(style = "S-")
 	private Date postDate = new Date();
 
 	public Long getId() {

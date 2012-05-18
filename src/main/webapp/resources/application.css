@@ -240,12 +240,27 @@ $LOGIN
 $ITEM
 */
 
-table tr {
+tr {
 	border-bottom: thin solid #BBB;
+}
+
+td > div {
+	overflow: hidden; 
+	height: 20px;
+	width: 100%;
+	text-align: center;
 }
 table { 
 	width: 100%;
+    table-layout: fixed;
+    border-bottom: 1px solid gray;
 }
+
+th, td {
+	overflow: hidden; 
+	text-align: center;
+}
+
 button {
 	margin: 0;
 }
@@ -259,6 +274,9 @@ button {
 	font-weight: bold;
 }
 
+.listing .link-button {
+	width: 60px;
+}
 button.buy {
     background-color: yellowGreen;
 }
