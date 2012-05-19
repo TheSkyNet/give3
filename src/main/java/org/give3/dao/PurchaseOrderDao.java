@@ -36,6 +36,11 @@ public class PurchaseOrderDao {
                                                 .setFirstResult(start)
                                                 .setMaxResults(pageSize)
                                                 .list();
+      // load the items for each purchase
+      for(PurchaseOrder order : orders) {
+         order.getItems().size();
+      }
+      
       return orders;
    }
    

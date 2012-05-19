@@ -244,6 +244,11 @@ tr {
 	border-bottom: thin solid #BBB;
 }
 
+td {
+	padding: 0;
+	margin: 0;
+	height: 30px;
+}
 a.item {
 	display: block;
 	overflow: hidden; 
@@ -267,6 +272,10 @@ table {
 th, td {
 	overflow: hidden; 
 	text-align: left;
+}
+
+td form {
+	margin: 0;	
 }
 
 button {
