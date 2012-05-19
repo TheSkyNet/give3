@@ -2,8 +2,7 @@
 
 <c:if test="${!ajaxRequest}">
 	<div id="formsContent">
-		<h2>Submit Item</h2>
-		<form:form id="form" method="post" modelAttribute="item" cssClass="cleanform">
+		<form:form style="width: 100%;" id="form" method="post" modelAttribute="item">
 			<div>
 		  		<c:if test="${not empty message}">
 					<div id="message" class="success">${message}</div>	
@@ -14,25 +13,25 @@
 		  			</c:if>
 		  		</s:bind>
 			</div>
-		  	<fieldset>
-		  		<legend>Item Info</legend>
-		  		<form:label path="name">
-		  			Name <form:errors path="name" cssClass="error" />
-		 		</form:label>
-		  		<form:input path="name" />
-		  		<form:label path="description">
-		  			Description <form:errors path="description" cssClass="error" />
-		 		</form:label>
-		  		<form:input path="description" />
-		  		
-		  		<form:label path="value">
-		  			Value <form:errors path="value" cssClass="error" />
-		 		</form:label>
-		  		<form:input path="value" />
-		  			
-		  	</fieldset>
 
-			<p><button type="submit">Submit</button></p>
+	  		<form:label path="name">
+	  			Name <form:errors path="name" cssClass="error" />
+	 		</form:label>
+	  		<form:input path="name" />
+	  		<form:label path="description">
+	  			Description <form:errors path="description" cssClass="error" />
+	 		</form:label>
+	  		<form:textarea style="max-width: 740px; width: 740px;" path="description" />
+	  		
+	  		<form:label path="value">
+	  			Value <form:errors path="value" cssClass="error" />
+	 		</form:label>
+	  		<form:input path="value" />
+
+			<a class="link-button" href="/item/buy/${item.id}">Buy Now</a>
+
+			<c:if test="${admin}"><p><button type="submit">Submit</button></p></c:if>
+			
 		</form:form>
 		<script type="text/javascript">
 			$(document).ready(function() {

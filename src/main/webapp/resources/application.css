@@ -244,11 +244,19 @@ tr {
 	border-bottom: thin solid #BBB;
 }
 
-td > div {
+a.item {
+	display: block;
 	overflow: hidden; 
 	height: 20px;
 	width: 100%;
-	text-align: center;
+	text-align: left;
+	padding: 5px 0;
+}
+a.item:hover {
+	background-color: #FFA;
+}
+a.item:visited {
+	color: blue;
 }
 table { 
 	width: 100%;
@@ -258,7 +266,7 @@ table {
 
 th, td {
 	overflow: hidden; 
-	text-align: center;
+	text-align: left;
 }
 
 button {
@@ -293,6 +301,17 @@ button.buy a:visited {
 	text-decoration: none;
 	color:black;
 }
+
+#form input, #form label {
+	display: block;
+	width: 100%;
+	padding-top: 10px;
+}
+
+#form label {
+	font-weight: bold;
+}
+
 
 /***************************
 $DONATE

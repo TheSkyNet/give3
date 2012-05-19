@@ -47,7 +47,7 @@ public class ItemController {
 
    @PreAuthorize("hasRole('ROLE_ADMIN')")
    @RequestMapping(method=RequestMethod.POST) 
-   public String processSubmit(@Valid Item formBean, 
+   public String itemCreatePost(@Valid Item formBean, 
                               BindingResult result, 
                               @ModelAttribute("ajaxRequest") boolean ajaxRequest, 
                               Model model, 
@@ -79,15 +79,14 @@ public class ItemController {
 
    @PreAuthorize("hasRole('ROLE_ADMIN')")
    @RequestMapping(method=RequestMethod.GET) 
-   public void form() {
+   public void createGet() {
 
    }
 
-   // TODO handle if item doesn't exist
-   @PreAuthorize("hasRole('ROLE_ADMIN')")
    @RequestMapping(value="{id}", method=RequestMethod.GET) 
-   public ModelAndView editForm(Model model, @PathVariable Long id) {
+   public ModelAndView itemPageGet(Model model, @PathVariable Long id) {
       
+      // TODO handle if item doesn't exist
       Item item = dao.getById(id);
 
       model.addAttribute("item", item);
@@ -103,7 +102,7 @@ public class ItemController {
    
    @PreAuthorize("isAuthenticated()")
    @RequestMapping(value="buy/{id}", method=RequestMethod.GET) 
-   public ModelAndView getCheckoutPage(Model model, @PathVariable Long id, Principal principal) {
+   public ModelAndView itemBuyGet(Model model, @PathVariable Long id, Principal principal) {
 
       // TODO handle if you don't have enough in your account balance
 
@@ -121,7 +120,7 @@ public class ItemController {
    
    @PreAuthorize("isAuthenticated()")
    @RequestMapping(value="buy/{id}", method=RequestMethod.POST) 
-   public ModelAndView buy(Model model, @PathVariable Long id, Principal principal) {
+   public ModelAndView itemBuyPost(Model model, @PathVariable Long id, Principal principal) {
 
       // TODO handle if item doesn't exist
       
@@ -131,6 +130,7 @@ public class ItemController {
       }
       catch(OrderFailedException ofe) {
          model.addAttribute("message", ofe.getMessage());
+         // TODO handle is item was already bought, does this handle it?
          return new ModelAndView("orderFailed", model.asMap());
       }
 
@@ -139,7 +139,7 @@ public class ItemController {
    
    @PreAuthorize("hasRole('ROLE_ADMIN')")
    @RequestMapping(value="{id}", method=RequestMethod.POST) 
-   public String editFormPost(@PathVariable Long id,
+   public String itemUpdatePost(@PathVariable Long id,
                               @Valid Item formBean, 
                               BindingResult result, 
                               @ModelAttribute("ajaxRequest") boolean ajaxRequest, 

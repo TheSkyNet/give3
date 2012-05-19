@@ -10,7 +10,6 @@
 	<title>One 2 Many</title>
 	<link type="text/css" href="/resources/application.css" rel=StyleSheet media=screen />
 	<link href="<c:url value="/resources/form.css" />" rel="stylesheet"  type="text/css" />		
-	<link href="<c:url value="/resources/jqueryui/1.8/themes/base/jquery.ui.all.css" />" rel="stylesheet" type="text/css"/>
 	<link rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon" />
 </head>
 <body>
