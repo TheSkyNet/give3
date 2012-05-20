@@ -11,7 +11,7 @@
 	<link type="text/css" href="/resources/application.css" rel=StyleSheet media=screen />
 	<link href="<c:url value="/resources/form.css" />" rel="stylesheet"  type="text/css" />		
 	<link rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon" />
-	<script type="text/javascript" src="resources/jquery/1.7.2/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="/resources/jquery/1.7.2/jquery-1.7.2.min.js"></script>
 </head>
 <body>
 
@@ -69,4 +69,4 @@ I'm choosing here to avoid duplicate code in controllers, also this is more view
 
 <div id="main">
 
-<div id="content" class="bordered" style="padding: 10px; min-height: 350px;">
+<div id="content" class="bordered">

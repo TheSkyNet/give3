@@ -11,7 +11,7 @@
     }
 </script>
 
-<form:form modelAttribute="person" method="post" class="button-themed" action="/register">
+<form:form name="f" modelAttribute="person" method="post" class="button-themed" action="/register">
 <div class="form-container">
     <h3>Register</h3>
     <div class="labels">
@@ -20,7 +20,7 @@
         <div>Repeat Password:</div>
     </div>
     <div class="values">
-        <div><form:input path="username" /></div>
+        <div><form:input name="j_username" path="username" /></div>
         <div><input id="unencodedPassword" name="unencodedPassword" type="password"  onmouseup="updatePasswordEncoding();" onkeyup="updatePasswordEncoding();" /></div>
         <div><input type="password"></div>
         <form:password style="display: none;" id="encodedPassword" path="password"></form:password>
@@ -36,5 +36,13 @@
 
 </form:form>
 
+<script type="text/javascript">
+
+    // get called when the page loads
+    $(function(){
+        document.f.username.focus();
+    });
+
+</script>
 
 <%@include file="/WEB-INF/views/jspf/footer.jsp" %>

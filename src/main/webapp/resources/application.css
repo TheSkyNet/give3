@@ -34,13 +34,9 @@ body {
     background-position: left top;*/
 }
 
-.home > div {
-	padding: 5px;
-	margin: 15px 10px;
+input:focus {
+	background-color: #EFE;
 }
-
-
-
 /*******************************************************
 
 $MAIN PAGE LAYOUT*/
@@ -145,16 +141,20 @@ $MAIN PAGE LAYOUT*/
 }
 .home123 {
 	position: relative;
-	width: 200px;
+	width: 30%;
 	height: 60px;
-	margin: 0px 10px;
+	margin: 0 15px 0 0;
 	vertical-align: middle;
 	display: inline-block;
 	border-radius: 30px;
 	-moz-border-radius: 20px;
 	border: 2px solid black;
+	background-color: white;
 }
 
+.home div:not(.home123){
+	margin-top: 20px;
+}
 .home123:hover {
 	background-color: #FFA;
 	cursor: pointer;
@@ -167,8 +167,13 @@ $MAIN PAGE LAYOUT*/
 	line-height: 16px;
 }
 
+#content {
+	padding: 20px; 
+	min-height: 350px;
+}
+
 .about {
-	padding: 10px;
+	padding-bottom: 20px;
 }
 .about span {
 	font-weight: bold;
@@ -326,18 +331,12 @@ button.buy a:visited {
 $DONATE
 */
 
-.donate-form {
-	padding: 10px;
-}
 .donate-form div.description {
-	margin-top: 10px;
-	height: 50px;
+	margin-bottom: 20px;
 	font-weight: bold;
 	width: 100%;
 }
-.donate-form div {
-	height: 30px;
-}
+
 .donate-form > div > span {
 	display: inline-block;
 	width: 100px;
