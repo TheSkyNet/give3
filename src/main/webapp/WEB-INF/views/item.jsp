@@ -30,7 +30,7 @@
 
 			<a class="link-button" href="/item/buy/${item.id}">Buy Now</a>
 
-			<c:if test="${admin}"><p><button type="submit">Submit</button></p></c:if>
+			<c:if test="${admin}"><p><button type="submit">Update</button></p></c:if>
 			
 		</form:form>
 		<script type="text/javascript">
