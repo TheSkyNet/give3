@@ -1,9 +1,16 @@
 <%@include file="/WEB-INF/views/jspf/header.jsp" %>
 
-<div>
 Your Info
+<div class="form-container">
 
-${user.username}
+<div class="labels">
+	<div>Username:</div>
+	<div>Email:</div>
+</div>
+<div class="values">
+	<div><input type="text" value="${user.username}" disabled="true" /></div>
+	<div><input type="text" value="${user.email}" /></div>
+</div>
 </div>
 
 <div>
