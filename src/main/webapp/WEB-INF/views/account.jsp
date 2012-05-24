@@ -1,23 +1,23 @@
 <%@include file="/WEB-INF/views/jspf/header.jsp" %>
 
 Your Info
-<div class="form-container">
 
-<div class="labels">
-	<div>Username:</div>
-	<div>Email:</div>
+<form:form name="f" method="post"> 
+<div class="form-container" style="margin:0;">
+	<div class="labels">
+		<div>Username</div>
+		<div>Email</div>
+		<div>Balance</div>
+	</div>
+	<div class="values">
+		<div><input type="text" value="${user.username}" disabled="true" /></div>
+		<div><input type="text" value="${user.email}" name="emailAddress"/></div>
+		<div><input type="text" value="${user.balance}" disabled="true" /></div>
+		<div><button class="link-button" type="submit">Update</button></form></div>
+	</div>
 </div>
-<div class="values">
-	<div><input type="text" value="${user.username}" disabled="true" /></div>
-	<div><input type="text" value="${user.email}" /></div>
-</div>
-</div>
+</form:form>
 
-<div>
-Your Balance
-
-${user.balance}
-</div>
 
 <div>
 Your Purchases

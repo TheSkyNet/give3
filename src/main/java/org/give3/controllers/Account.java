@@ -11,8 +11,11 @@ import org.give3.domain.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -34,6 +37,17 @@ public class Account {
        modelMap.put("user", user);
        modelMap.put("orders", orders);
        return new ModelAndView("account", modelMap);
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/account", method = RequestMethod.POST)
+    public ModelAndView fullfillOrder(Model model, Principal principal, @RequestParam(value = "emailAddress", required = true) String emailAddress) {
+       
+       Person user = userDao.getUser(principal.getName());
+       user.setEmail(emailAddress);
+       userDao.updatePerson(user);
+       
+       return new ModelAndView("redirect:/account", model.asMap());
     }
 
     public PersonDao getUserDao() {
