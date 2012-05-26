@@ -24,7 +24,7 @@
         <div><input id="unencodedPassword" name="unencodedPassword" type="password"  onmouseup="updatePasswordEncoding();" onkeyup="updatePasswordEncoding();" /></div>
         <div><input type="password"></div>
         <form:password style="display: none;" id="encodedPassword" path="password"></form:password>
-        <div><input type="submit" class="submit-button" align="center" value="Submit"  >
+        <div><input type="submit" class="link-button" align="center" value="Submit"  >
     </div>
     </div>
     <div class="errors">

@@ -13,7 +13,7 @@
         <div><input type='text' name='j_username' value=''></div>
         <div><input type='password' name='j_password'/></div>
         <div><input type='checkbox' name='_spring_security_remember_me'/></div>
-        <div><input type="submit" class="submit-button" align="center" value="Submit"  >
+        <div><input type="submit" class="link-button" align="center" value="Submit"  >
     </div>
     </div>
     <div class="errors">
