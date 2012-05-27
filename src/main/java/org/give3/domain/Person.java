@@ -40,13 +40,19 @@ public class Person implements Serializable {
     private String username = "";
 
     /**
-     * This should already be the md5 hash.
+     * This should be stored as a salted hash.
      */
     @Basic
     @NotNull
-    @Size(max=32, min=32, message="Password must be a 32-length hex MD5 hash")
     private String password = "";
 
+    /**
+     * This describes how the password was computed, so we can migrate to new security algorithms if we want.
+     */
+    @Basic
+    @NotNull
+    private String passwordType = "";
+    
     // TODO add not null and email format constraints
     @Basic
     private String email = "";
@@ -98,21 +104,6 @@ public class Person implements Serializable {
         return password;
     }
 
-    /**
-     *
-     * Password is always stored as a 32-digit hexadecimal md5 hash.
-     * If you need to calculate it on the server, code like this will do it:
-     *
-     * public static String computeHashMD5(String pass) throws NoSuchAlgorithmException {
-     *    MessageDigest m = MessageDigest.getInstance("MD5");
-     *    byte[] data = pass.getBytes();
-     *    m.update(data,0,data.length);
-     *    BigInteger i = new BigInteger(1,m.digest());
-     *    return String.format("%1$032X", i);
-     * }
-     *
-     * @param password
-     */
     public void setPassword(String password) {
         this.password = password;
     }
@@ -166,6 +157,20 @@ public class Person implements Serializable {
     */
    public void setOrders(Set<PurchaseOrder> orders) {
       this.orders = orders;
+   }
+
+   /**
+    * @return the passwordType
+    */
+   public String getPasswordType() {
+      return passwordType;
+   }
+
+   /**
+    * @param passwordType the passwordType to set
+    */
+   public void setPasswordType(String passwordType) {
+      this.passwordType = passwordType;
    }
 
 }
