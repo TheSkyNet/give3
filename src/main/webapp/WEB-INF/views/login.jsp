@@ -2,7 +2,8 @@
 
 <form name='f' action='/j_spring_security_check' method='POST'>
 <div class="form-container">
-    <h3>Login with Username and Password </h3> <a style="font-size: 11px;" href="/account/password/reset" >(forgot your password?)</a>
+    <h3>Login with Username and Password </h3>
+    <a style="font-size: 11px; display: block; height: 30px;" href="/account/password/reset" >(forgot your password?)</a>
     
     <div class="labels">
         <div>Username:</div>

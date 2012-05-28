@@ -1,8 +1,10 @@
 <%@include file="/WEB-INF/views/jspf/header.jsp" %>
 
     <h3>Reset Password</h3>
-    A new password will be emailed to the email address for your account.
-    Once you receive this password, you should change it immediately.
+    Submit your username, 
+    you will be taken back to the login page and a new password will be emailed to the email address for your account.
+    When you receive this password, you should log in and change it immediately.
+    (You can change your password at your <a href="/account">account page</a>)
     
 <form name='f' method='POST'>
 <div class="form-container">

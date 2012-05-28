@@ -51,7 +51,7 @@ public class Account {
        emailService.send(new String[] {recipient}, subject, body);
 
        Map<String, Object> modelMap = new HashMap<String, Object>();
-       return new ModelAndView("redirect:/", modelMap);
+       return new ModelAndView("redirect:/login", modelMap);
     }
     
     @PreAuthorize("isAuthenticated()")
