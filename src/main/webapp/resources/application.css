@@ -96,8 +96,17 @@ $MAIN PAGE LAYOUT*/
 	background-color: #CCC;
 }
 
+.link-button.disabled {
+	color: gray;
+	background-color: #DDD;
+	cursor: auto;
+}
+.link-button.disabled:hover {
+	cursor: auto;
+}
+
 .link-button:hover {
-    background-color: #DDDDDD; 
+    background-color: #DDD; 
     cursor: pointer;
 }
 

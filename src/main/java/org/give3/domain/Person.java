@@ -51,7 +51,7 @@ public class Person implements Serializable {
      */
     @Basic
     @NotNull
-    private String passwordType = "";
+    private String passwordType = "MD5";
     
     // TODO add not null and email format constraints
     @Basic

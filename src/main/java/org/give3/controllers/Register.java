@@ -9,7 +9,9 @@ import javax.validation.Valid;
 import org.give3.dao.PersonDao;
 import org.give3.domain.Person;
 import org.give3.domain.Role;
+import org.give3.security.HashEncoderMD5;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +29,8 @@ public class Register {
     @Autowired
     private PersonDao userDao;
 
+    private PasswordEncoder encoder = new HashEncoderMD5();
+    
     public Register() {
     }
 
@@ -43,9 +47,11 @@ public class Register {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView createNewUser(final @Valid @ModelAttribute Person user,
                                       final BindingResult result,
-                                      final SessionStatus status,
-                                      final @RequestParam(value = "unencodedPassword", required = true) String password)
+                                      final SessionStatus status)
     {
+       
+       String plainPassword = user.getPassword();
+       user.setPassword(encoder.encode(plainPassword));
        
         final Map<String, Object> modelMap = new HashMap<String, Object>();
     
@@ -64,7 +70,7 @@ public class Register {
            userDao.createNewUser(user);
            status.setComplete();
            modelMap.put("username", user.getUsername());
-           modelMap.put("password", password); // unencoded password is used to log in on the next page
+           modelMap.put("password", plainPassword); // unencoded password is used to log in on the next page
            viewname = "registerComplete";
         }
 

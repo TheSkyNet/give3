@@ -1,13 +1,24 @@
 
 <%@include file="/WEB-INF/views/jspf/header.jsp" %>
 
-<script type="text/javascript" src="/resources/js/application.md5.js"></script>
-<script type="text/javascript" src="/resources/js/md5.js"></script>
-
 <script type="text/javascript">
-    function updatePasswordEncoding()
+    function checkPassword()
     {
-        updatePasswordEncodingById('unencodedPassword', 'encodedPassword');
+    	var email = $('#email').get(0);
+        var passwordField = $('#password').get(0);
+        var repeatPasswordField = $('#repeatPassword').get(0);
+        var submitButton = $('#submitButton').get(0);
+        var empty = passwordField.value.length === 0 || repeatPasswordField.value.length === 0 || email.value.length === 0;
+        var passwordMismatch = (passwordField.value !== repeatPasswordField.value);
+        submitButton.setAttribute('disabled', passwordMismatch);
+        if(passwordMismatch || empty) {
+        	$('#submitButton').addClass('disabled');
+        	submitButton.setAttribute('disabled', passwordMismatch);
+        }
+       	else {
+        	$('#submitButton').removeClass('disabled');
+        	$('#submitButton').removeAttr('disabled');
+       	}
     }
 </script>
 
@@ -16,15 +27,17 @@
     <h3>Register</h3>
     <div class="labels">
         <div>Username:</div>
+        <div>Email:</div>
         <div>Password:</div>
         <div>Repeat Password:</div>
     </div>
+<!--     onmouseup="checkPassword();" -->
     <div class="values">
-        <div><form:input name="j_username" path="username" /></div>
-        <div><input id="unencodedPassword" name="unencodedPassword" type="password"  onmouseup="updatePasswordEncoding();" onkeyup="updatePasswordEncoding();" /></div>
-        <div><input type="password"></div>
-        <form:password style="display: none;" id="encodedPassword" path="password"></form:password>
-        <div><input type="submit" class="link-button" align="center" value="Submit"  >
+        <div><form:input id="username" name="j_username" path="username" onkeyup="checkPassword();" /></div>
+        <div><form:input id="email" name="email" path="email" onkeyup="checkPassword();" /></div>
+        <div><form:password id="password" path="password"   onkeyup="checkPassword();"></form:password></div>
+        <div><input id="repeatPassword" type="password" onkeyup="checkPassword();" /></div>
+        <div><input id="submitButton" type="submit" class="link-button disabled" align="center" value="Submit" disabled="true" >
     </div>
     </div>
     <div class="errors">
