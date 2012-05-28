@@ -70,7 +70,7 @@ $MAIN PAGE LAYOUT*/
 
 .navigation a, .authenticated-navigation a, .admin-navigation a  {
 	margin: 5px;
-	font-family: 'Titan One', cursive;
+/* 	font-family: 'Titan One', cursive; */
 }
 .authenticated-navigation {
 	background-color: #DDD; 
