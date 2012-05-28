@@ -24,13 +24,7 @@ public class KarmaKashDaoDefault implements KarmaKashDao {
     private SessionFactory sessionFactory;
 
     private Random random = new Random();
-    
-    /**
-     *  this is a detached query
-     *  http://docs.jboss.org/hibernate/core/3.3/reference/en/html/querycriteria.html#querycriteria-detachedqueries
-     */
-    private DetachedCriteria getAll = DetachedCriteria.forClass(KarmaKash.class);
-    
+
     public KarmaKashDaoDefault() {
 
     }
@@ -49,13 +43,21 @@ public class KarmaKashDaoDefault implements KarmaKashDao {
     * @return 16-digit random number as a string
     */
    public String generateCode() {
+      return generateCode(16);
+   }
+
+   /**
+    * 
+    * @return n-digit random number as a string
+    */
+   public String generateCode(int numDigits) {
       StringBuffer buffer = new StringBuffer();
-      for(int i=0; i <16; i++) {
+      for(int i=0; i < numDigits; i++) {
          buffer.append(Math.abs(random.nextInt() % 10));
       }
       return buffer.toString();
    }
-
+   
    @Transactional
    @Override
    public void saveBatch(List<KarmaKash> list) {

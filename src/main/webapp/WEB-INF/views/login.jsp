@@ -2,7 +2,7 @@
 
 <form name='f' action='/j_spring_security_check' method='POST'>
 <div class="form-container">
-    <h3>Login with Username and Password</h3>
+    <h3>Login with Username and Password </h3> <a style="font-size: 11px;" href="/account/password/reset" >(forgot your password?)</a>
     
     <div class="labels">
         <div>Username:</div>
@@ -19,7 +19,7 @@
     <div class="errors">
         <div></div>
         <div></div>
-        <div><c:if test="${ param['login_error'] == 1 }"><div style="color: red; margin: 15px; font-weight: bold;">Login failed.</div></c:if></div>        
+        <div><c:if test="${ param['login_error'] == 1 }"><div style="color: red; font-weight: bold;">Login failed.</div></c:if></div>        
     </div>
         
 </div>

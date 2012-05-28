@@ -34,4 +34,8 @@ public interface PersonDao {
 
    Set<PurchaseOrder> getOrders(String username);
 
+   void updatePassword(String username, String oldRawPassword, String newRawPassword);
+
+   String resetPassword(String username);
+
 }

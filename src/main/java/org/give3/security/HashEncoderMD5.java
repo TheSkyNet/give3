@@ -30,7 +30,7 @@ public class HashEncoderMD5 implements PasswordEncoder {
       try {
          MessageDigest digest = MessageDigest.getInstance(MD5);
          byte[] hash = digest.digest(rawPassword.toString().getBytes("UTF-8"));
-         output = Hex.encodeHexString(hash);
+         output = Hex.encodeHexString(hash).toLowerCase();
       }
       catch(NoSuchAlgorithmException nsae) {
          nsae.printStackTrace();
@@ -38,7 +38,7 @@ public class HashEncoderMD5 implements PasswordEncoder {
       catch(UnsupportedEncodingException uee) {
          uee.printStackTrace();
       }
-      return output.toUpperCase();
+      return output;
    }
 
    @Override

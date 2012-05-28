@@ -30,7 +30,7 @@ public class EmailServiceSMTP implements EmailService {
       //don't need to specify port if you're using default port 25
       props.put("mail.smtp.auth", "true");
       
-      // TODO implementEmailServiceSSL
+      // TODO implement EmailServiceSSL
       // read up on the java mail api and examples rather than blindly copy/paste code from the internet
       // there are some common mistakes: http://www.oracle.com/technetwork/java/faq-135477.html#commonmistakes
       // will probably need these properties

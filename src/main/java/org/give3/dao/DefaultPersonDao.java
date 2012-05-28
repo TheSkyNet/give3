@@ -6,10 +6,13 @@ import java.util.Set;
 
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
+import org.give3.security.HashEncoderMD5;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -20,12 +23,6 @@ public class DefaultPersonDao implements PersonDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    /**
-     *  this is a detached query
-     *  http://docs.jboss.org/hibernate/core/3.3/reference/en/html/querycriteria.html#querycriteria-detachedqueries
-     */
-    private DetachedCriteria getAll = DetachedCriteria.forClass(Person.class);
 
     private HibernateUnProxifier<Person> personUnproxifier = new HibernateUnProxifier<Person>();
     
@@ -40,6 +37,42 @@ public class DefaultPersonDao implements PersonDao {
         return getUser(user.getUsername()) != null;
     }
 
+    @Transactional 
+    @Override
+    public void updatePassword(String username, String oldRawPassword, String newRawPassword) {
+       
+       PasswordEncoder encoder = new HashEncoderMD5();
+       Person user = getUser(username);
+
+       if( ! encoder.matches(oldRawPassword, user.getPassword()) ) {
+          throw new BadCredentialsException("Failed to authenticate the existing password when pdating password for user " + username);
+       }
+       
+       user.setPassword(encoder.encode(newRawPassword));
+       updatePerson(user);
+    }
+    
+    /**
+     * 
+     * @param username of the account to reset password
+     * 
+     * @return new un-encrypted password that is subsequently valid for this account. The original password is destroyed.
+     */
+    @Transactional 
+    @Override
+    public String resetPassword(String username) {
+       
+       PasswordEncoder encoder = new HashEncoderMD5();
+       Person user = getUser(username);
+       // TODO extract random string generation to security package
+       
+       String newRawPassword = new KarmaKashDaoDefault().generateCode(7);
+       user.setPassword(encoder.encode(newRawPassword));
+       updatePerson(user);
+       
+       return  newRawPassword;
+    }
+    
     /**
      *
      * @param user to create in the database
@@ -129,6 +162,7 @@ public class DefaultPersonDao implements PersonDao {
        session.flush();
     }
 
+    @SuppressWarnings("unchecked")
     @Transactional
     @Override
     public List<Person> getUsers() {
