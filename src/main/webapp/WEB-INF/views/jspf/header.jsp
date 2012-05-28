@@ -7,10 +7,11 @@
 
 <html>
 <head>
-	<title>One 2 Many</title>
+	<title>Give3</title>
 	<link type="text/css" href="/resources/application.css" rel=StyleSheet media=screen />
 	<link href="<c:url value="/resources/form.css" />" rel="stylesheet"  type="text/css" />		
 	<link rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon" />
+	<link href='http://fonts.googleapis.com/css?family=Short+Stack|Titan+One' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="/resources/jquery/1.7.2/jquery-1.7.2.min.js"></script>
 </head>
 <body>

@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 // TODO the login form for the login page should be sent over https
 
-// TODO when you go to a page with the user/pass fields already filled, should be able to hit submit
-// and have it work (currently md5 encoding is only done on type/click in the password field)
-
-
 /**
  * maps the root url to the main page.
  */

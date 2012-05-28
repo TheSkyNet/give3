@@ -9,10 +9,8 @@ import org.give3.dao.PersonDao;
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
 import org.give3.email.EmailService;
-import org.give3.security.HashEncoderMD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,14 +55,25 @@ public class Account {
     }
     
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/account/password/update", method = RequestMethod.POST)
-    public ModelAndView updatePassword(Principal principal) throws Exception {
+    @RequestMapping(value = "/account/password/update", method = RequestMethod.GET)
+    public ModelAndView updatePasswordRequest() throws Exception {
 
-       userDao.updatePassword(principal.getName(), "", "");
+       Map<String, Object> modelMap = new HashMap<String, Object>();
+       return new ModelAndView("updatePassword", modelMap);
+    }
+    
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/account/password/update", method = RequestMethod.POST)
+    public ModelAndView updatePassword(Principal principal, 
+          @RequestParam(value = "oldPassword", required = true) String oldPassword,
+          @RequestParam(value = "newPassword", required = true) String newPassword) throws Exception 
+    {
+
+       userDao.updatePassword(principal.getName(), oldPassword, newPassword);
        
        Map<String, Object> modelMap = new HashMap<String, Object>();
        
-       return new ModelAndView("/account/password/update", modelMap);
+       return new ModelAndView("redirect:/account", modelMap);
     }
 
     @PreAuthorize("isAuthenticated()")
