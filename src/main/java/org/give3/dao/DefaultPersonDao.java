@@ -118,9 +118,6 @@ public class DefaultPersonDao implements PersonDao {
 //          serializableUser.setEnabled(user.getEnabled());
 //          serializableUser.setPassword(user.getPassword());
           
-          
-          // TODO roles should probably be eagerly loaded 
-          
           // TODO return serializable roles (doesn't work with json serialization)
           
           // this collection is lazy loaded, so if you don't access the
@@ -128,7 +125,7 @@ public class DefaultPersonDao implements PersonDao {
           // access of the collection from outside this method will crash because
           // the set can't be loaded from the db
           // (the session will already have been closed)
-        //  serializableUser.getRoles().addAll(user.getRoles());
+          //  serializableUser.getRoles().addAll(user.getRoles());
           
           // the collection is an unserializable PersistentSet,
           // so need to fix the serialization thing for hibernate objects

@@ -2,8 +2,10 @@ package org.give3.dao;
 
 import java.util.List;
 
+import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
 import org.give3.domain.PurchaseOrder.STATUS;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -35,22 +37,18 @@ public class PurchaseOrderDao {
                                                 .add(Restrictions.eq("status", STATUS.UNFULFILLED))
                                                 .setFirstResult(start)
                                                 .setMaxResults(pageSize)
-                                                .list();
-      // load the items for each purchase
-      for(PurchaseOrder order : orders) {
-         order.getItems().size();
-      }
-      
+                                                .setFetchMode("items", FetchMode.JOIN)
+                                                .list();      
       return orders;
    }
    
    @Transactional
    public void fulfillOrder(Long orderId) {
       Session session = sessionFactory.getCurrentSession();
-      
-      PurchaseOrder order = (PurchaseOrder)getAll.getExecutableCriteria(session)
-                           .add(Restrictions.eq("id", orderId))
-                           .uniqueResult();
+
+      PurchaseOrder order = (PurchaseOrder)session.createCriteria(PurchaseOrder.class)
+                                                  .add(Restrictions.eq("id", orderId))
+                                                  .uniqueResult();
       
       order.setStatus(STATUS.FULFILLED);
       session.update(order);
