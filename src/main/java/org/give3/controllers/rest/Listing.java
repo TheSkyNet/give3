@@ -37,11 +37,13 @@ public class Listing {
     // http://springinpractice.com/2012/02/22/supporting-xml-and-json-web-service-endpoints-in-spring-3-1-using-responsebody/
     // http://stackoverflow.com/questions/3340050/springs-json-not-being-resolved-with-appropriate-response
     
+    // TODO this method gets in an infinite loop since role and person point to each other, I thought JsonBackReference was supposed to fix that?
+
+    
     @RequestMapping(value = "/rest/person", method = RequestMethod.GET)
-    @PreAuthorize("isAuthenticated()")
     public @ResponseBody Person listingPerson() {
        
-       Person person = userDao.getUsers().iterator().next(); 
+       Person person = userDao.getUserSerializable("jay");
        return person;
     }
     

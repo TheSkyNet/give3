@@ -7,6 +7,7 @@ import java.util.Set;
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
 import org.give3.security.HashEncoderMD5;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -90,7 +91,6 @@ public class DefaultPersonDao implements PersonDao {
     @Override
     public Set<PurchaseOrder> getOrders(String username) {
        Person user = getUser(username);
-       
        HibernateUnProxifier<List<PurchaseOrder>> orderUnproxifier = new HibernateUnProxifier<List<PurchaseOrder>>();
        Set<PurchaseOrder> orders = orderUnproxifier.unproxy(user.getOrders());
        return orders;
@@ -101,9 +101,15 @@ public class DefaultPersonDao implements PersonDao {
     @Transactional
     @Override
     public Person getUserSerializable(String username) {
-
-       Person user = getUser(username);
+       Session session = sessionFactory.getCurrentSession();
+       Person user = (Person) session.createCriteria(Person.class)
+             .add(Restrictions.eq("username", username))
+             .setFetchMode("roles", FetchMode.JOIN)
+             .setFetchMode("orders", FetchMode.JOIN)
+             .uniqueResult();
        Person serializableUser = (user != null) ? personUnproxifier.unproxy(user) : null;
+       serializableUser.setRoles(null);
+       serializableUser.setOrders(null);
        return serializableUser;
     }
     
