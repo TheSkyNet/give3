@@ -9,7 +9,7 @@ import org.give3.domain.PurchaseOrder;
 import org.give3.security.HashEncoderMD5;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -96,42 +96,14 @@ public class DefaultPersonDao implements PersonDao {
        return orders;
     }
 
+    // TODO return serializable roles (doesn't work with json serialization)
+
     @Transactional
     @Override
     public Person getUserSerializable(String username) {
-       Session session = sessionFactory.getCurrentSession();
-       Person user = (Person) session.createQuery("select p from Person p where p.username=:name")
-                                     .setString("name", username)
-                                     .uniqueResult();
 
-       Person serializableUser = null; 
-       
-       // it's null if there was no entity with the given id
-       if (user != null) {
-          
-          serializableUser = personUnproxifier.unproxy(user);
-
-//          // TODO should be in a copy constructor
-//          serializableUser = new Person();
-//          serializableUser.setUsername(user.getUsername());
-//          serializableUser.setEmail(user.getEmail());
-//          serializableUser.setEnabled(user.getEnabled());
-//          serializableUser.setPassword(user.getPassword());
-          
-          // TODO return serializable roles (doesn't work with json serialization)
-          
-          // this collection is lazy loaded, so if you don't access the
-          // collection from this method before returning
-          // access of the collection from outside this method will crash because
-          // the set can't be loaded from the db
-          // (the session will already have been closed)
-          //  serializableUser.getRoles().addAll(user.getRoles());
-          
-          // the collection is an unserializable PersistentSet,
-          // so need to fix the serialization thing for hibernate objects
-
-       }
-       
+       Person user = getUser(username);
+       Person serializableUser = (user != null) ? personUnproxifier.unproxy(user) : null;
        return serializableUser;
     }
     
@@ -139,9 +111,7 @@ public class DefaultPersonDao implements PersonDao {
     @Override
     public Person getUser(String username) {
        Session session = sessionFactory.getCurrentSession();
-       Person user = (Person) session.createQuery("select p from Person p where p.username=:name")
-                                     .setString("name", username)
-                                     .uniqueResult();
+       Person user = (Person) session.createCriteria(Person.class).add(Restrictions.eq("username", username)).uniqueResult();
        return user;
     }
 
@@ -150,11 +120,9 @@ public class DefaultPersonDao implements PersonDao {
     public void deleteUser(Person user)
     {
        Session session = sessionFactory.getCurrentSession();
-       Person attachedObject = (Person) session.createQuery("select p from Person p where p.username=:name")
-                                     .setString("name", user.getUsername())
-                                     .uniqueResult();
+       Person attachedObject = getUser(user.getUsername());
 
-       // deletes are cascaded to authorities table
+       // deletes should be cascaded to authorities table
        session.delete(attachedObject);
        session.flush();
     }

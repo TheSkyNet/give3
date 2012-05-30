@@ -41,7 +41,6 @@ public class ItemDaoDefault implements ItemDao {
       List<Item> items = (List<Item>) getAvailable.getExecutableCriteria(session)
                                                 .setFirstResult(start)
                                                 .setMaxResults(pageSize)
-                                                .setFetchSize(pageSize)
                                                 .list();
       return items;
    }

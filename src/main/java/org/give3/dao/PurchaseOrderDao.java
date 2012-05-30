@@ -2,7 +2,6 @@ package org.give3.dao;
 
 import java.util.List;
 
-import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
 import org.give3.domain.PurchaseOrder.STATUS;
 import org.hibernate.FetchMode;
@@ -21,9 +20,7 @@ public class PurchaseOrderDao {
     *  this is a detached query
     *  http://docs.jboss.org/hibernate/core/3.3/reference/en/html/querycriteria.html#querycriteria-detachedqueries
     */
-   private DetachedCriteria getAll = DetachedCriteria.forClass(PurchaseOrder.class);
-
-   private HibernateUnProxifier<PurchaseOrder> orderListUnproxifier = new HibernateUnProxifier<PurchaseOrder>();
+   private DetachedCriteria getUnfulfilled = DetachedCriteria.forClass(PurchaseOrder.class).add(Restrictions.eq("status", STATUS.UNFULFILLED));
 
    /**
     * @return paged set of unfulfilled orders.
@@ -33,8 +30,7 @@ public class PurchaseOrderDao {
    public List<PurchaseOrder> getPage(int start, int pageSize) {
       Session session = sessionFactory.getCurrentSession();
       
-      List<PurchaseOrder> orders = (List<PurchaseOrder>) getAll.getExecutableCriteria(session)
-                                                .add(Restrictions.eq("status", STATUS.UNFULFILLED))
+      List<PurchaseOrder> orders = (List<PurchaseOrder>) getUnfulfilled.getExecutableCriteria(session)
                                                 .setFirstResult(start)
                                                 .setMaxResults(pageSize)
                                                 .setFetchMode("items", FetchMode.JOIN)
