@@ -96,16 +96,14 @@ public class DefaultPersonDao implements PersonDao {
        return orders;
     }
 
-    // TODO return serializable roles (doesn't work with json serialization)
-
     @Transactional
     @Override
     public Person getUserSerializable(String username) {
        Session session = sessionFactory.getCurrentSession();
        Person user = (Person) session.createCriteria(Person.class)
              .add(Restrictions.eq("username", username))
-             .setFetchMode("roles", FetchMode.JOIN)
-             .setFetchMode("orders", FetchMode.JOIN)
+//             .setFetchMode("roles", FetchMode.JOIN)
+//             .setFetchMode("orders", FetchMode.JOIN)
              .uniqueResult();
        Person serializableUser = (user != null) ? personUnproxifier.unproxy(user) : null;
        serializableUser.setRoles(null);

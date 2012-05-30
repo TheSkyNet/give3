@@ -38,7 +38,8 @@ public class Listing {
     // http://stackoverflow.com/questions/3340050/springs-json-not-being-resolved-with-appropriate-response
     
     // TODO this method gets in an infinite loop since role and person point to each other, I thought JsonBackReference was supposed to fix that?
-
+    // try later version of jackson that handles circular references http://www.cowtowncoder.com/blog/archives/2012/03/entry_466.html
+    // or change data structures to not use circular references in the first place
     
     @RequestMapping(value = "/rest/person", method = RequestMethod.GET)
     public @ResponseBody Person listingPerson() {
