@@ -33,14 +33,17 @@ public class ItemDaoTest {
    @Autowired
    private PersonDao personDao;
    
+   private Person user = new Person(1L, "j@y.com", "baba327d241746ee0829e7e88117d4d5");
+   
    @Before
    public void setup() {
+      
       Item item = new Item();
       item.setName("new item");
       item.setDescription("description here");
       item.setValue(8);
       dao.createItem(item);
-      Person user = new Person("jay", "baba327d241746ee0829e7e88117d4d5", 1000000);
+      
       user.setBalance(10);
       personDao.createNewUser(user);
       flushAndClear();
@@ -68,14 +71,13 @@ public class ItemDaoTest {
    @Transactional
    public void placeOrder() throws Exception {
       
-      Person user = personDao.getUser("jay");
-      assertEquals(0, user.getOrders().size());
+      assertEquals(0, personDao.getOrders(user.getUsername()).size());
       
-      dao.createOrder("jay", dao.getPage(0, 1).iterator().next().getId());
+      dao.createOrder(user.getUsername(), dao.getPage(0, 1).iterator().next().getId());
       flushAndClear();
       
-      user = personDao.getUser("jay");
-      assertEquals(1, user.getOrders().size());
+      user = personDao.getUser(user.getUsername());
+      assertEquals(1, personDao.getOrders(user.getUsername()).size());
       assertEquals(2, user.getBalance().intValue());
    }
    
@@ -83,10 +85,9 @@ public class ItemDaoTest {
    @Transactional
    public void placeOrderExceedBalance() throws Exception {
       
-      Person user = personDao.getUser("jay");
       user.setBalance(1);
       personDao.updatePerson(user);
-      dao.createOrder("jay", dao.getPage(0, 1).iterator().next().getId());
+      dao.createOrder(user.getUsername(), dao.getPage(0, 1).iterator().next().getId());
 
    }
    
@@ -95,11 +96,8 @@ public class ItemDaoTest {
    public void placeOrderItemAlreadyPurchased() throws Exception {
       
       Long itemId = dao.getPage(0, 1).iterator().next().getId();
-      Person user = personDao.getUser("jay");
-
-      dao.createOrder("jay", itemId);
-      dao.createOrder("jay",itemId);
-
+      dao.createOrder(user.getUsername(), itemId);
+      dao.createOrder(user.getUsername(), itemId);
    }
    
    @Test
@@ -111,7 +109,7 @@ public class ItemDaoTest {
       assertEquals(1, page.size());
       
       // someone buys it
-      dao.createOrder("jay", dao.getPage(0, 1).iterator().next().getId());
+      dao.createOrder(user.getUsername(), dao.getPage(0, 1).iterator().next().getId());
       flushAndClear();
       
       // the item doesn't appear in listings

@@ -3,9 +3,9 @@ package org.give3.dao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import org.give3.domain.KarmaKash;
+import org.give3.security.RandomGenerator;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,8 +22,8 @@ public class KarmaKashDaoDefault implements KarmaKashDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private Random random = new Random();
-
+    private RandomGenerator random = new RandomGenerator();
+    
     public KarmaKashDaoDefault() {
 
     }
@@ -35,26 +35,6 @@ public class KarmaKashDaoDefault implements KarmaKashDao {
       Criteria byId = session.createCriteria(KarmaKash.class).add(Restrictions.eq(KarmaKash.CODE, code));
       KarmaKash k = (KarmaKash) byId.uniqueResult();
       return k;
-   }
-   
-   /**
-    * 
-    * @return 16-digit random number as a string
-    */
-   public String generateCode() {
-      return generateCode(16);
-   }
-
-   /**
-    * 
-    * @return n-digit random number as a string
-    */
-   public String generateCode(int numDigits) {
-      StringBuffer buffer = new StringBuffer();
-      for(int i=0; i < numDigits; i++) {
-         buffer.append(Math.abs(random.nextInt() % 10));
-      }
-      return buffer.toString();
    }
    
    @Transactional
@@ -73,7 +53,7 @@ public class KarmaKashDaoDefault implements KarmaKashDao {
       List<KarmaKash> list = new ArrayList<KarmaKash>(size);
       for(int i=0; i < size; i++) {
          KarmaKash k = new KarmaKash();
-         k.setCode(generateCode());
+         k.setCode(random.generateCode16());
          k.setValue(1);
          k.setCreatedOn(createdOn);
          list.add(k);

@@ -4,16 +4,18 @@ package org.give3.dao;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.ConstraintViolationException;
+
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
-import org.give3.security.HashEncoderMD5;
-import org.hibernate.FetchMode;
+import org.give3.security.RandomGenerator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -26,6 +28,8 @@ public class DefaultPersonDao implements PersonDao {
     private SessionFactory sessionFactory;
 
     private HibernateUnProxifier<Person> personUnproxifier = new HibernateUnProxifier<Person>();
+    private PasswordEncoder encoder = new StandardPasswordEncoder();
+    private RandomGenerator random = new RandomGenerator();
     
     public DefaultPersonDao() {
 
@@ -41,12 +45,11 @@ public class DefaultPersonDao implements PersonDao {
     @Transactional 
     @Override
     public void updatePassword(String username, String oldRawPassword, String newRawPassword) {
-       
-       PasswordEncoder encoder = new HashEncoderMD5();
+
        Person user = getUser(username);
 
        if( ! encoder.matches(oldRawPassword, user.getPassword()) ) {
-          throw new BadCredentialsException("Failed to authenticate the existing password when pdating password for user " + username);
+          throw new BadCredentialsException("Failed to authenticate the existing password when pdating password for " + username);
        }
        
        user.setPassword(encoder.encode(newRawPassword));
@@ -63,11 +66,8 @@ public class DefaultPersonDao implements PersonDao {
     @Override
     public String resetPassword(String username) {
        
-       PasswordEncoder encoder = new HashEncoderMD5();
        Person user = getUser(username);
-       // TODO extract random string generation to security package
-       
-       String newRawPassword = new KarmaKashDaoDefault().generateCode(7);
+       String newRawPassword = random.generateCode(7);
        user.setPassword(encoder.encode(newRawPassword));
        updatePerson(user);
        
@@ -87,12 +87,16 @@ public class DefaultPersonDao implements PersonDao {
         session.flush();
     }
     
-    @Transactional
+    @SuppressWarnings("unchecked")
+   @Transactional
     @Override
-    public Set<PurchaseOrder> getOrders(String username) {
-       Person user = getUser(username);
+    public List<PurchaseOrder> getOrders(String username) {
+       Session session = sessionFactory.getCurrentSession();
+       List<PurchaseOrder> orders = (List<PurchaseOrder>) session.createCriteria(PurchaseOrder.class)
+             .add(Restrictions.eq("user", getUser(username)))
+             .list();
        HibernateUnProxifier<List<PurchaseOrder>> orderUnproxifier = new HibernateUnProxifier<List<PurchaseOrder>>();
-       Set<PurchaseOrder> orders = orderUnproxifier.unproxy(user.getOrders());
+       orders = orderUnproxifier.unproxy(orders);
        return orders;
     }
 
@@ -102,12 +106,8 @@ public class DefaultPersonDao implements PersonDao {
        Session session = sessionFactory.getCurrentSession();
        Person user = (Person) session.createCriteria(Person.class)
              .add(Restrictions.eq("username", username))
-//             .setFetchMode("roles", FetchMode.JOIN)
-//             .setFetchMode("orders", FetchMode.JOIN)
              .uniqueResult();
        Person serializableUser = (user != null) ? personUnproxifier.unproxy(user) : null;
-       serializableUser.setRoles(null);
-       serializableUser.setOrders(null);
        return serializableUser;
     }
     

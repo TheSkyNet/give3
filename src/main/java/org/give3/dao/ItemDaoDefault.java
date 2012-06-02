@@ -108,7 +108,6 @@ public class ItemDaoDefault implements ItemDao {
       order.setUser(user);
       user.setBalance(user.getBalance() - item.getValue());
 
-      user.getOrders().add(order);
       item.setPurchaseOrder(order);
       session.save(order);
       session.merge(item);

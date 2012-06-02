@@ -23,7 +23,7 @@
     <authentication-manager>
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource"/>
-            <password-encoder hash="md5"/>
+            <password-encoder hash="sha-256"/>
         </authentication-provider>
     </authentication-manager>
 

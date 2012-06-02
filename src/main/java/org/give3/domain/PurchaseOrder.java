@@ -44,9 +44,7 @@ public class PurchaseOrder {
 	private Set<Item> items = null;
 
    @ManyToOne()
-   @JoinColumn(name="username")
    @NotNull
-   @JsonBackReference
    private Person user = null;
    
    @Enumerated(EnumType.STRING)

@@ -31,7 +31,7 @@ public interface PersonDao {
 
     void updatePerson(Person user);
 
-   Set<PurchaseOrder> getOrders(String username);
+   List<PurchaseOrder> getOrders(String username);
 
    void updatePassword(String username, String oldRawPassword, String newRawPassword);
 

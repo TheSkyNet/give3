@@ -2,6 +2,7 @@
 package org.give3.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,15 +10,20 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
@@ -32,40 +38,35 @@ import org.springframework.format.annotation.NumberFormat.Style;
 @Table( name="users", uniqueConstraints={@UniqueConstraint(columnNames={"username"})})
 public class Person implements Serializable {
 
+   private static final long serialVersionUID = 1L;
 
-    @Id
-    @Basic
-    @NotNull
-    @Size(max=50, min=1, message="Name must be between 1 and 50 characters")
-    private String username = "";
-
-    /**
-     * This should be stored as a salted hash.
-     */
-    @Basic
-    @NotNull
-    private String password = "";
-
-    /**
-     * This describes how the password was computed, so we can migrate to new security algorithms if we want.
-     */
-    @Basic
-    @NotNull
-    private String passwordType = "MD5";
+   @Id
+   @GeneratedValue(generator = "increment")
+   @GenericGenerator(name = "increment", strategy = "increment")
+   private Long id = -1L;
     
-    // TODO add not null and email format constraints
     @Basic
-    private String email = "";
+    @NotNull
+    @Email
+    @Size(min=1, message="Name must be at least 1 character")
+    private String username = null;
+
+    @Temporal(value=TemporalType.TIMESTAMP)
+    @NotNull
+    private Date registration = new Date();
+    
+    @Temporal(value=TemporalType.TIMESTAMP)
+    private Date lastLogin = null;
+    
+    /**
+     * This should be encrypted before being stored in the database.
+     */
+    @Basic
+    @NotNull
+    private String password = null;
 
     @Basic
-    private boolean enabled = true;
-
-    @OneToMany(mappedBy="person", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<Role> roles = new HashSet<Role>();
-
-    @OneToMany(mappedBy="user")
-    private Set<PurchaseOrder> orders = new HashSet<PurchaseOrder>();
+    private boolean enabled = false;
 
     @Basic
     @NotNull
@@ -73,22 +74,20 @@ public class Person implements Serializable {
     @NumberFormat(style = Style.NUMBER)
     private Integer balance = new Integer(0);
     
+    @Basic
+    private String firstName = "";
+    
+    @Basic
+    private String lastName = "";
+    
     public Person()  {
         
     }
     
-    public Person(String uname, String pword, int newbalance) {
+    public Person(long key, String uname, String pword) {
         username = uname;
         password=pword;
-        balance = newbalance;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    //    id = key;
     }
 
     public Boolean getEnabled() {
@@ -116,14 +115,6 @@ public class Person implements Serializable {
         this.username = username;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
    /**
     * @return the balance
     */
@@ -146,31 +137,59 @@ public class Person implements Serializable {
    }
 
    /**
-    * @return the orders
+    * @return the registration
     */
-   public Set<PurchaseOrder> getOrders() {
-      return orders;
+   public Date getRegistration() {
+      return registration;
    }
 
    /**
-    * @param orders the orders to set
+    * @param registration the registration to set
     */
-   public void setOrders(Set<PurchaseOrder> orders) {
-      this.orders = orders;
+   public void setRegistration(Date registration) {
+      this.registration = registration;
    }
 
    /**
-    * @return the passwordType
+    * @return the lastLogin
     */
-   public String getPasswordType() {
-      return passwordType;
+   public Date getLastLogin() {
+      return lastLogin;
    }
 
    /**
-    * @param passwordType the passwordType to set
+    * @param lastLogin the lastLogin to set
     */
-   public void setPasswordType(String passwordType) {
-      this.passwordType = passwordType;
+   public void setLastLogin(Date lastLogin) {
+      this.lastLogin = lastLogin;
+   }
+
+   /**
+    * @return the firstName
+    */
+   public String getFirstName() {
+      return firstName;
+   }
+
+   /**
+    * @param firstName the firstName to set
+    */
+   public void setFirstName(String firstName) {
+      this.firstName = firstName;
+   }
+
+   /**
+    * @return the lastName
+    */
+   public String getLastName() {
+      return lastName;
+   }
+
+   /**
+    * @param lastName the lastName to set
+    */
+   public void setLastName(String lastName) {
+      this.lastName = lastName;
    }
 
 }

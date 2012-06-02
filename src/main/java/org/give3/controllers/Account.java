@@ -2,6 +2,7 @@ package org.give3.controllers;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public class Account {
        // TODO throw exception and handle it if user does not exist
        
        String newPassword = userDao.resetPassword(username);
-       String recipient = userDao.getUser(username).getEmail();
+       String recipient = userDao.getUser(username).getUsername();
        String subject = "password reset for give3.org";
        String body = "Your password has been changed to: " + newPassword +
                    ". For security reasons, you should log in and update your password.";
@@ -80,7 +81,7 @@ public class Account {
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public ModelAndView getUserAccount(Principal principal) throws Exception {
 
-       Set<PurchaseOrder> orders = userDao.getOrders(principal.getName());
+       Set<PurchaseOrder> orders = new HashSet<PurchaseOrder>();
        Person user = userDao.getUserSerializable(principal.getName());
        Map<String, Object> modelMap = new HashMap<String, Object>();
        modelMap.put("user", user);
@@ -93,7 +94,7 @@ public class Account {
     public ModelAndView fullfillOrder(Model model, Principal principal, @RequestParam(value = "emailAddress", required = true) String emailAddress) {
        
        Person user = userDao.getUser(principal.getName());
-       user.setEmail(emailAddress);
+       user.setUsername(emailAddress);
        userDao.updatePerson(user);
        
        return new ModelAndView("redirect:/account", model.asMap());

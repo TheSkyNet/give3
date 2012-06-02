@@ -53,13 +53,13 @@ public class PurchaseOrderDaoTest {
       item.setValue(10);
       itemDao.createItem(item);
       
-      Person user = new Person("jay", "baba327d241746ee0829e7e88117d4d5", 1000000);
+      Person user = new Person(1L, "j@y.com", "baba327d241746ee0829e7e88117d4d5");
       user.setBalance(12);
-      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_ADMIN));
-      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_USER));
+//      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_ADMIN));
+//      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_USER));
       personDao.createNewUser(user);
       
-      user = new Person("chris", "baba327d241746ee0829e7e88117d4d5", 1000000);
+      user = new Person(2L, "c@give3.org", "baba327d241746ee0829e7e88117d4d5");
       user.setBalance(12);
       personDao.createNewUser(user);
       
@@ -85,7 +85,7 @@ public class PurchaseOrderDaoTest {
       assertEquals(2, itemDao.getPage(0,  10).size());
       
       // someone buys it
-      itemDao.createOrder("jay", itemDao.getPage(0, 1).iterator().next().getId());
+      itemDao.createOrder("j@y.com", itemDao.getPage(0, 1).iterator().next().getId());
       flushAndClear();
       
       // there is now a purchase order you can fulfill
@@ -102,7 +102,7 @@ public class PurchaseOrderDaoTest {
       List<PurchaseOrder> page;
       
       // there's one item in stock
-      itemDao.createOrder("jay", itemDao.getPage(0, 1).iterator().next().getId());
+      itemDao.createOrder("j@y.com", itemDao.getPage(0, 1).iterator().next().getId());
       page = purchaseOrderDao.getPage(0, 1);
       assertEquals(1, page.size());
 
