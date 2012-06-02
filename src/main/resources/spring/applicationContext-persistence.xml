@@ -40,11 +40,13 @@
             </property>
     </bean>
 
-   <bean id="emailService" class="org.give3.email.EmailServiceSMTP">
-       <constructor-arg index="0" value="${email.username}"/>
-       <constructor-arg index="1" value="${email.password}"/>
-       <constructor-arg index="2" value="${email.host}"/>
-       <constructor-arg index="3" value="${email.debug}"/>
-   </bean>
+	<bean id="emailService" class="org.give3.email.EmailServiceStandardOut" /> 
+
+<!--    <bean id="emailService" class="org.give3.email.EmailServiceSMTP"> -->
+<!--        <constructor-arg index="0" value="${email.username}"/> -->
+<!--        <constructor-arg index="1" value="${email.password}"/> -->
+<!--        <constructor-arg index="2" value="${email.host}"/> -->
+<!--        <constructor-arg index="3" value="${email.debug}"/> -->
+<!--    </bean> -->
     
 </beans>

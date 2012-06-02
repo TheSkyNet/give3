@@ -3,19 +3,16 @@ package org.give3.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-
-import org.codehaus.jackson.annotate.JsonBackReference;
 
 
 
@@ -39,11 +36,11 @@ public class Role implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id = -1;
 
-    @ManyToOne()
-    @JoinColumn(name="username")
+    
+    // TODO add FK constraint on user
+    @Basic
     @NotNull
-    @JsonBackReference
-    private Person person;
+    private String username;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -52,12 +49,6 @@ public class Role implements Serializable {
     public Role()
     {
         
-    }
-
-    public Role(Person p, APPLICATION_ROLE a)
-    {
-        person = p;
-        authority = a;
     }
 
     public APPLICATION_ROLE getAuthority() {
@@ -76,12 +67,19 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
-    }
+   /**
+    * @return the username
+    */
+   public String getUsername() {
+      return username;
+   }
 
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+   /**
+    * @param username the username to set
+    */
+   public void setUsername(String username) {
+      this.username = username;
+   }
+
 
 }

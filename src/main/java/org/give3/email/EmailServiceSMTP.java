@@ -43,6 +43,7 @@ public class EmailServiceSMTP implements EmailService {
          
    }
    
+   @Override
    public void send(String recipients[], String subject, String message) throws MessagingException {
    
       Session session = Session.getInstance(props);

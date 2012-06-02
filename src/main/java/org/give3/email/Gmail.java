@@ -40,6 +40,7 @@ public class Gmail implements EmailService {
       Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
    }
    
+   @Override
    public void send(String recipients[], String subject, String message) throws MessagingException {
    
       Session session = Session.getDefaultInstance(props,

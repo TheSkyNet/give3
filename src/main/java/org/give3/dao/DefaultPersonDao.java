@@ -128,7 +128,6 @@ public class DefaultPersonDao implements PersonDao {
 
        // deletes should be cascaded to authorities table
        session.delete(attachedObject);
-       session.flush();
     }
 
     @SuppressWarnings("unchecked")

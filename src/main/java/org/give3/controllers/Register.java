@@ -4,11 +4,12 @@ package org.give3.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.give3.dao.PersonDao;
 import org.give3.domain.Person;
-import org.give3.domain.Role;
+import org.give3.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
@@ -28,6 +29,9 @@ public class Register {
     @Autowired
     private PersonDao userDao;
 
+    @Autowired
+    private EmailService emailService;
+    
     private PasswordEncoder encoder = new StandardPasswordEncoder();
     
     public Register() {
@@ -46,7 +50,7 @@ public class Register {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView createNewUser(final @Valid @ModelAttribute Person user,
                                       final BindingResult result,
-                                      final SessionStatus status)
+                                      final SessionStatus status) throws MessagingException
     {
        
        String plainPassword = user.getPassword();
@@ -66,7 +70,9 @@ public class Register {
         {
             // TODO don't commit an object directly from the user, use a "safeCopy()" (which doesn't copy the PK) instead
      //      user.getRoles().add(new Role(user, Role.APPLICATION_ROLE.ROLE_USER));
+           String message = "click here to complete your registration: ";
            userDao.createNewUser(user);
+           emailService.send(new String[] {user.getUsername()}, "give3.org registration", message);
            status.setComplete();
            modelMap.put("username", user.getUsername());
            modelMap.put("password", plainPassword); // unencoded password is used to log in on the next page

@@ -62,7 +62,6 @@ public class ItemDaoDefault implements ItemDao {
    public void createItem(Item item) {
       Session session = sessionFactory.getCurrentSession();
       session.save(item);
-      session.flush();
    }
    
    @Transactional
@@ -70,7 +69,6 @@ public class ItemDaoDefault implements ItemDao {
    public void updateItem(Item item) {
        Session session = sessionFactory.getCurrentSession();
        session.merge(item);
-       session.flush();
    }
    
    @Transactional
