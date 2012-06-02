@@ -44,7 +44,6 @@ public class KarmaKashDaoDefault implements KarmaKashDao {
       for(KarmaKash k : list) {
          session.save(k);
       }
-      session.flush();
    }
    
    @Override
@@ -66,7 +65,6 @@ public class KarmaKashDaoDefault implements KarmaKashDao {
    public void update(KarmaKash k) {
        Session session = sessionFactory.getCurrentSession();
        session.merge(k);
-       session.flush();
    }
 
    public void setSessionFactory(SessionFactory sessionFactory) {
