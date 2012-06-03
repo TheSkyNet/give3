@@ -8,11 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.give3.dao.PersonDao;
+import org.give3.domain.Role;
 import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.give3.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,9 +79,12 @@ public class Account {
        // TODO handle is user has already registered (check lastLogin != null)
        
        if(! user.getPassword().equals(key)) {
-          throw new BadCommandException();
+          throw new BadCredentialsException("can't complete registration with the given key for " + username);
        }
        
+       Set<Role> roles = new HashSet<Role>();
+       roles.add(new Role(user));
+       user.setRoles(roles);
        user.setEnabled(true);
        user.setRegistration(new Date());
        userDao.updatePerson(user);

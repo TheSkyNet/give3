@@ -20,6 +20,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.NumberFormat;
@@ -64,9 +66,10 @@ public class User implements UserDetails, Serializable {
     @Basic
     private boolean enabled = false;
 
-//    @OneToMany(orphanRemoval=true, mappedBy="user")
-//    @NotNull
-//    private Set<Role> authorities = new HashSet<Role>();
+    @OneToMany(orphanRemoval=true, mappedBy="user")
+    @NotNull
+    @Cascade(value= {CascadeType.ALL})
+    private Set<Role> roles = new HashSet<Role>();
     
     @Basic
     @NotNull
@@ -172,7 +175,7 @@ public class User implements UserDetails, Serializable {
 
    @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
-      return null;
+      return roles;
    }
 
    @Override
@@ -193,6 +196,20 @@ public class User implements UserDetails, Serializable {
    @Override
    public boolean isEnabled() {
       return enabled;
+   }
+
+   /**
+    * @return the roles
+    */
+   public Set<Role> getRoles() {
+      return roles;
+   }
+
+   /**
+    * @param roles the roles to set
+    */
+   public void setRoles(Set<Role> roles) {
+      this.roles = roles;
    }
 
 }

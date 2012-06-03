@@ -9,16 +9,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-// TODO implement GrantedAuthority
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity
-@Table( name="authorities", uniqueConstraints=@UniqueConstraint(columnNames={"username", "authority"}))
-public class Role implements  Serializable {
+@Table( name="authorities", uniqueConstraints=@UniqueConstraint(columnNames={"user_id", "role"}))
+public class Role implements GrantedAuthority, Serializable {
 
    private static final long serialVersionUID = 1L;
 
@@ -34,23 +34,26 @@ public class Role implements  Serializable {
 
     @ManyToOne
     @NotNull
-    @JoinColumn(name="username", referencedColumnName="username")
     private User user;
     
     @Enumerated(EnumType.STRING)
     @NotNull
-    private APPLICATION_ROLE authority = APPLICATION_ROLE.ROLE_USER;
+    private APPLICATION_ROLE role = APPLICATION_ROLE.ROLE_USER;
 
     public Role() {
         
     }
 
-    public void setAuthority(APPLICATION_ROLE authority) {
-        this.authority = authority;
+    public Role(User u) {
+       user = u;
+    }
+    
+    public void setRole(APPLICATION_ROLE authority) {
+        this.role = authority;
     }
 
-    public APPLICATION_ROLE getAuthority() {
-       return authority;
+    public APPLICATION_ROLE getRole() {
+       return role;
     }
     
     public long getId() {
@@ -73,6 +76,11 @@ public class Role implements  Serializable {
     */
    public void setUser(User user) {
       this.user = user;
+   }
+
+   @Override
+   public String getAuthority() {
+      return role.toString();
    }
 
 }
