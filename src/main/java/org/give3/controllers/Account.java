@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.give3.dao.PersonDao;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.give3.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.sun.mail.iap.BadCommandException;
 
 @Controller
 public class Account {
@@ -69,10 +71,13 @@ public class Account {
     public ModelAndView getAccountRegister(@RequestParam(value = "username", required = true) String username, 
                                            @RequestParam(value = "key",      required = true) String key) throws Exception {
 
-       Person user = userDao.getUser(username);
+       User user = userDao.getUser(username);
        
-       if(user == null || user.getLastLogin() != null || ! user.getPassword().equals(key)) {
-          throw new Exception();
+       // TODO handle if user does not exist
+       // TODO handle is user has already registered (check lastLogin != null)
+       
+       if(! user.getPassword().equals(key)) {
+          throw new BadCommandException();
        }
        
        user.setEnabled(true);
@@ -102,7 +107,7 @@ public class Account {
     public ModelAndView getUserAccount(Principal principal) throws Exception {
 
        Set<PurchaseOrder> orders = new HashSet<PurchaseOrder>();
-       Person user = userDao.getUserSerializable(principal.getName());
+       User user = userDao.getUserSerializable(principal.getName());
        Map<String, Object> modelMap = new HashMap<String, Object>();
        modelMap.put("user", user);
        modelMap.put("orders", orders);
@@ -113,7 +118,7 @@ public class Account {
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public ModelAndView fullfillOrder(Model model, Principal principal, @RequestParam(value = "emailAddress", required = true) String emailAddress) {
        
-       Person user = userDao.getUser(principal.getName());
+       User user = userDao.getUser(principal.getName());
        user.setUsername(emailAddress);
        userDao.updatePerson(user);
        

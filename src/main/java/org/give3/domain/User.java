@@ -2,12 +2,16 @@
 package org.give3.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,17 +24,18 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 /**
  *
  * The tablename "users" and column names "username/password/enabled" are conventions for spring security.
  *
- * @author Jason Young
  */
 @Entity
 @Table( name="users", uniqueConstraints={@UniqueConstraint(columnNames={"username"})})
-public class Person implements Serializable {
+public class User implements UserDetails, Serializable {
 
    private static final long serialVersionUID = 1L;
 
@@ -49,9 +54,6 @@ public class Person implements Serializable {
     @NotNull
     private Date registration = new Date();
     
-    @Temporal(value=TemporalType.TIMESTAMP)
-    private Date lastLogin = null;
-    
     /**
      * This should be encrypted before being stored in the database.
      */
@@ -62,6 +64,10 @@ public class Person implements Serializable {
     @Basic
     private boolean enabled = false;
 
+//    @OneToMany(orphanRemoval=true, mappedBy="user")
+//    @NotNull
+//    private Set<Role> authorities = new HashSet<Role>();
+    
     @Basic
     @NotNull
     @Min(value=0)
@@ -74,11 +80,11 @@ public class Person implements Serializable {
     @Basic
     private String lastName = "";
     
-    public Person()  {
+    public User()  {
         
     }
     
-    public Person(String uname, String pword) {
+    public User(String uname, String pword) {
         username = uname;
         password=pword;
     }
@@ -123,13 +129,6 @@ public class Person implements Serializable {
    }
 
    /**
-    * @param enabled the enabled to set
-    */
-   public void setEnabled(boolean enabled) {
-      this.enabled = enabled;
-   }
-
-   /**
     * @return the registration
     */
    public Date getRegistration() {
@@ -141,20 +140,6 @@ public class Person implements Serializable {
     */
    public void setRegistration(Date registration) {
       this.registration = registration;
-   }
-
-   /**
-    * @return the lastLogin
-    */
-   public Date getLastLogin() {
-      return lastLogin;
-   }
-
-   /**
-    * @param lastLogin the lastLogin to set
-    */
-   public void setLastLogin(Date lastLogin) {
-      this.lastLogin = lastLogin;
    }
 
    /**
@@ -183,6 +168,31 @@ public class Person implements Serializable {
     */
    public void setLastName(String lastName) {
       this.lastName = lastName;
+   }
+
+   @Override
+   public Collection<? extends GrantedAuthority> getAuthorities() {
+      return null;
+   }
+
+   @Override
+   public boolean isAccountNonExpired() {
+      return true;
+   }
+
+   @Override
+   public boolean isAccountNonLocked() {
+      return true;
+   }
+
+   @Override
+   public boolean isCredentialsNonExpired() {
+      return true;
+   }
+
+   @Override
+   public boolean isEnabled() {
+      return enabled;
    }
 
 }

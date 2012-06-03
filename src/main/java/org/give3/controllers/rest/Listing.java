@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.give3.dao.PersonDao;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -42,9 +42,9 @@ public class Listing {
     // or change data structures to not use circular references in the first place
     
     @RequestMapping(value = "/rest/person", method = RequestMethod.GET)
-    public @ResponseBody Person listingPerson() {
+    public @ResponseBody User listingPerson() {
        
-       Person person = userDao.getUserSerializable("jay");
+       User person = userDao.getUserSerializable("jay");
        return person;
     }
     
@@ -54,7 +54,7 @@ public class Listing {
    public ModelAndView listingJson(final Principal loggedInUser, final HttpServletResponse response) {
 
       JsonView view = new JsonView();
-      Person person = userDao.getUserSerializable(loggedInUser.getName());
+      User person = userDao.getUserSerializable(loggedInUser.getName());
       return view.render(person, response);
    }
 

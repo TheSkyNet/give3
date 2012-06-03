@@ -45,7 +45,7 @@ public class PurchaseOrder {
 
    @ManyToOne()
    @NotNull
-   private Person user = null;
+   private User user = null;
    
    @Enumerated(EnumType.STRING)
    @NotNull
@@ -84,14 +84,14 @@ public class PurchaseOrder {
    /**
     * @return the user
     */
-   public Person getUser() {
+   public User getUser() {
       return user;
    }
 
    /**
     * @param user the user to set
     */
-   public void setUser(Person user) {
+   public void setUser(User user) {
       this.user = user;
    }
 

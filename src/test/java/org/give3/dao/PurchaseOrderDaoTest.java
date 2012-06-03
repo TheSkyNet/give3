@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.give3.domain.Item;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.give3.domain.Role;
 import org.give3.domain.Role.APPLICATION_ROLE;
@@ -53,13 +53,13 @@ public class PurchaseOrderDaoTest {
       item.setValue(10);
       itemDao.createItem(item);
       
-      Person user = new Person("j@y.com", "baba327d241746ee0829e7e88117d4d5");
+      User user = new User("j@y.com", "baba327d241746ee0829e7e88117d4d5");
       user.setBalance(12);
 //      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_ADMIN));
 //      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_USER));
       personDao.createNewUser(user);
       
-      user = new Person("c@give3.org", "baba327d241746ee0829e7e88117d4d5");
+      user = new User("c@give3.org", "baba327d241746ee0829e7e88117d4d5");
       user.setBalance(12);
       personDao.createNewUser(user);
       

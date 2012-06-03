@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.give3.domain.Item;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -87,7 +87,7 @@ public class ItemDaoDefault implements ItemDao {
                                  .add(Restrictions.eq(Item.ID, itemId))
                                  .uniqueResult();
       
-      Person user = (Person) session.createQuery("select p from Person p where p.username=:name")
+      User user = (User) session.createQuery("select p from User p where p.username=:name")
                                     .setString("name", userId)
                                     .uniqueResult();
 

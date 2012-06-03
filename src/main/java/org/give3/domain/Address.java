@@ -32,7 +32,7 @@ public class Address {
    private String zipCode;
    
    @OneToOne
-   private Person person;
+   private User person;
    
    public Address() {
       

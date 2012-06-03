@@ -9,7 +9,7 @@ import org.give3.ajax.AjaxUtils;
 import org.give3.dao.KarmaKashDao;
 import org.give3.dao.PersonDao;
 import org.give3.domain.KarmaKash;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -52,7 +52,7 @@ public class RedeemController {
       // Success response handling
       // save to DB and clear the "form" attribute from the session via SessionStatus.setCompleted().
       KarmaKash k = dao.getKarmaKash(formBean.getCode());
-      Person user = personDao.getUser(principal.getName());
+      User user = personDao.getUser(principal.getName());
       k.setRedeemedBy(user);
       k.setRedeemedOn(new Date());
       user.setBalance(user.getBalance() + k.getValue());

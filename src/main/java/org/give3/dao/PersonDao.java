@@ -4,7 +4,7 @@ package org.give3.dao;
 import java.util.List;
 import java.util.Set;
 
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 
 /**
@@ -17,19 +17,19 @@ public interface PersonDao {
      *
      * @param user to create in the database
      */
-    void createNewUser(Person user);
+    void createNewUser(User user);
 
-    boolean isUserPresent(Person user);
+    boolean isUserPresent(User user);
 
-    Person getUser(String username);
+    User getUser(String username);
     
-    Person getUserSerializable(String username);
+    User getUserSerializable(String username);
 
-    void deleteUser(Person user);
+    void deleteUser(User user);
 
-    List<Person> getUsers();
+    List<User> getUsers();
 
-    void updatePerson(Person user);
+    void updatePerson(User user);
 
    List<PurchaseOrder> getOrders(String username);
 
