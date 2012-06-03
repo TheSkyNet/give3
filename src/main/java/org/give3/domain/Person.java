@@ -3,16 +3,11 @@ package org.give3.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,7 +16,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.NumberFormat;
@@ -84,10 +78,9 @@ public class Person implements Serializable {
         
     }
     
-    public Person(long key, String uname, String pword) {
+    public Person(String uname, String pword) {
         username = uname;
         password=pword;
-    //    id = key;
     }
 
     public Boolean getEnabled() {

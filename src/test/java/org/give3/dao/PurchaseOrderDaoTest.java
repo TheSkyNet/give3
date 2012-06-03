@@ -53,13 +53,13 @@ public class PurchaseOrderDaoTest {
       item.setValue(10);
       itemDao.createItem(item);
       
-      Person user = new Person(1L, "j@y.com", "baba327d241746ee0829e7e88117d4d5");
+      Person user = new Person("j@y.com", "baba327d241746ee0829e7e88117d4d5");
       user.setBalance(12);
 //      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_ADMIN));
 //      user.getRoles().add(new Role(user, APPLICATION_ROLE.ROLE_USER));
       personDao.createNewUser(user);
       
-      user = new Person(2L, "c@give3.org", "baba327d241746ee0829e7e88117d4d5");
+      user = new Person("c@give3.org", "baba327d241746ee0829e7e88117d4d5");
       user.setBalance(12);
       personDao.createNewUser(user);
       

@@ -1,6 +1,7 @@
 package org.give3.controllers;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.give3.domain.PurchaseOrder;
 import org.give3.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,6 +63,24 @@ public class Account {
 
        Map<String, Object> modelMap = new HashMap<String, Object>();
        return new ModelAndView("updatePassword", modelMap);
+    }
+    
+    @RequestMapping(value = "/account/register", method = RequestMethod.GET)
+    public ModelAndView getAccountRegister(@RequestParam(value = "username", required = true) String username, 
+                                           @RequestParam(value = "key",      required = true) String key) throws Exception {
+
+       Person user = userDao.getUser(username);
+       
+       if(user == null || user.getLastLogin() != null || ! user.getPassword().equals(key)) {
+          throw new Exception();
+       }
+       
+       user.setEnabled(true);
+       user.setRegistration(new Date());
+       userDao.updatePerson(user);
+       
+       Map<String, Object> modelMap = new HashMap<String, Object>();
+       return new ModelAndView("redirect:/", modelMap);
     }
     
     @PreAuthorize("isAuthenticated()")

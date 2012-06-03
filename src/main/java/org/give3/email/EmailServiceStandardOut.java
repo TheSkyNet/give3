@@ -5,6 +5,10 @@ import javax.mail.MessagingException;
 
 public class EmailServiceStandardOut implements EmailService {
    
+   public EmailServiceStandardOut() {
+      
+   }
+   
    @Override
    public void send(String recipients[], String subject, String message) throws MessagingException {
       System.out.println("-----------------------------------");

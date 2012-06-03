@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import javax.validation.ConstraintViolationException;
-
 import org.give3.domain.Item;
 import org.give3.domain.Person;
 import org.junit.Before;
@@ -33,7 +31,7 @@ public class ItemDaoTest {
    @Autowired
    private PersonDao personDao;
    
-   private Person user = new Person(1L, "j@y.com", "baba327d241746ee0829e7e88117d4d5");
+   private Person user = new Person("j@y.com", "baba327d241746ee0829e7e88117d4d5");
    
    @Before
    public void setup() {

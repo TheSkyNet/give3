@@ -32,6 +32,9 @@ public class Register {
     @Autowired
     private EmailService emailService;
     
+    @Autowired
+    private String baseUrl;
+    
     private PasswordEncoder encoder = new StandardPasswordEncoder();
     
     public Register() {
@@ -52,7 +55,7 @@ public class Register {
                                       final BindingResult result,
                                       final SessionStatus status) throws MessagingException
     {
-       
+
        String plainPassword = user.getPassword();
        user.setPassword(encoder.encode(plainPassword));
        
@@ -68,9 +71,11 @@ public class Register {
 
         if (! result.hasErrors())
         {
-            // TODO don't commit an object directly from the user, use a "safeCopy()" (which doesn't copy the PK) instead
-     //      user.getRoles().add(new Role(user, Role.APPLICATION_ROLE.ROLE_USER));
-           String message = "click here to complete your registration: ";
+           // TODO don't commit an object directly from the user, use a "safeCopy()" (which doesn't copy the PK) instead
+           // TODO add roles to user     user.getRoles().add(new Role(user, Role.APPLICATION_ROLE.ROLE_USER));
+           // TODO may need to URL encode the username
+           String registerLink = baseUrl + "account/register?username=" + user.getUsername() + "&key=" + user.getPassword();
+           String message = "click here to complete your registration: " + registerLink;
            userDao.createNewUser(user);
            emailService.send(new String[] {user.getUsername()}, "give3.org registration", message);
            status.setComplete();

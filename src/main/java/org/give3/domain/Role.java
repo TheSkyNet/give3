@@ -3,13 +3,14 @@ package org.give3.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -36,18 +37,17 @@ public class Role implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id = -1;
 
-    
-    // TODO add FK constraint on user
-    @Basic
+    // TODO if this doesn't work, see this https://hibernate.onjira.com/browse/HHH-3824
+    @OneToOne()
     @NotNull
-    private String username;
-
+    @JoinColumn(name="username", referencedColumnName="username")
+    private Person user;
+    
     @Enumerated(EnumType.STRING)
     @NotNull
     private APPLICATION_ROLE authority = APPLICATION_ROLE.ROLE_USER;
 
-    public Role()
-    {
+    public Role() {
         
     }
 
@@ -68,18 +68,19 @@ public class Role implements Serializable {
     }
 
    /**
-    * @return the username
+    * @return the user
     */
-   public String getUsername() {
-      return username;
+   public Person getUser() {
+      return user;
    }
 
    /**
-    * @param username the username to set
+    * @param user the user to set
     */
-   public void setUsername(String username) {
-      this.username = username;
+   public void setUser(Person user) {
+      this.user = user;
    }
+
 
 
 }
