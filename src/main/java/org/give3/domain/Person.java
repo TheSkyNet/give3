@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
@@ -37,6 +38,7 @@ public class Person implements Serializable {
     @Basic
     @NotNull
     @Size(max=50, min=1, message="Name must be between 1 and 50 characters")
+    @Email
     private String username = "";
 
     /**
@@ -45,17 +47,6 @@ public class Person implements Serializable {
     @Basic
     @NotNull
     private String password = "";
-
-    /**
-     * This describes how the password was computed, so we can migrate to new security algorithms if we want.
-     */
-    @Basic
-    @NotNull
-    private String passwordType = "MD5";
-    
-    // TODO add not null and email format constraints
-    @Basic
-    private String email = "";
 
     @Basic
     private boolean enabled = true;
@@ -83,14 +74,6 @@ public class Person implements Serializable {
         balance = newbalance;
     }
     
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Boolean getEnabled() {
         return enabled;
     }
@@ -158,19 +141,4 @@ public class Person implements Serializable {
    public void setOrders(Set<PurchaseOrder> orders) {
       this.orders = orders;
    }
-
-   /**
-    * @return the passwordType
-    */
-   public String getPasswordType() {
-      return passwordType;
-   }
-
-   /**
-    * @param passwordType the passwordType to set
-    */
-   public void setPasswordType(String passwordType) {
-      this.passwordType = passwordType;
-   }
-
 }

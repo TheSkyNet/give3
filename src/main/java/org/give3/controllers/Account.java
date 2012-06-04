@@ -44,7 +44,7 @@ public class Account {
        // TODO throw exception and handle it if user does not exist
        
        String newPassword = userDao.resetPassword(username);
-       String recipient = userDao.getUser(username).getEmail();
+       String recipient = username;
        String subject = "password reset for give3.org";
        String body = "Your password has been changed to: " + newPassword +
                    ". For security reasons, you should log in and update your password.";
@@ -93,7 +93,7 @@ public class Account {
     public ModelAndView fullfillOrder(Model model, Principal principal, @RequestParam(value = "emailAddress", required = true) String emailAddress) {
        
        Person user = userDao.getUser(principal.getName());
-       user.setEmail(emailAddress);
+
        userDao.updatePerson(user);
        
        return new ModelAndView("redirect:/account", model.asMap());

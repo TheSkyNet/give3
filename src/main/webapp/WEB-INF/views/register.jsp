@@ -4,11 +4,11 @@
 <script type="text/javascript">
     function checkPassword()
     {
-    	var email = $('#email').get(0);
+    	var username = $('#username').get(0);
         var passwordField = $('#password').get(0);
         var repeatPasswordField = $('#repeatPassword').get(0);
         var submitButton = $('#submitButton').get(0);
-        var empty = passwordField.value.length === 0 || repeatPasswordField.value.length === 0 || email.value.length === 0;
+        var empty = passwordField.value.length === 0 || repeatPasswordField.value.length === 0 || username.value.length === 0;
         var passwordMismatch = (passwordField.value !== repeatPasswordField.value);
         submitButton.setAttribute('disabled', passwordMismatch);
         if(passwordMismatch || empty) {
@@ -25,16 +25,15 @@
 <form:form name="f" modelAttribute="person" method="post" class="button-themed" action="/register">
 <div class="form-container">
     <h3>Register</h3>
+    (Your username is your email address)
     <div class="labels">
         <div>Username:</div>
-        <div>Email:</div>
         <div>Password:</div>
         <div>Repeat Password:</div>
     </div>
 <!--     onmouseup="checkPassword();" -->
     <div class="values">
         <div><form:input id="username" name="j_username" path="username" onkeyup="checkPassword();" /></div>
-        <div><form:input id="email" name="email" path="email" onkeyup="checkPassword();" /></div>
         <div><form:password id="password" path="password"   onkeyup="checkPassword();"></form:password></div>
         <div><input id="repeatPassword" type="password" onkeyup="checkPassword();" /></div>
         <div><input id="submitButton" type="submit" class="link-button disabled" align="center" value="Submit" disabled="true" >

@@ -6,16 +6,15 @@ Your Info
 <div class="form-container" style="margin:0;">
 	<div class="labels">
 		<div>Username</div>
-		<div>Email</div>
 		<div>Password</div>
 		<div>Balance</div>
 	</div>
 	<div class="values">
 		<div><input type="text" value="${user.username}" disabled="true" /></div>
-		<div><input type="text" value="${user.email}" name="emailAddress"/></div>
+<%-- 		<div><input type="text" value="${user.email}" name="emailAddress"/></div> --%>
 		<div><a href="/account/password/update">Update</a></div>
 		<div><input type="text" value="${user.balance}" disabled="true" /></div>
-		<div><button class="link-button" type="submit">Update</button></form></div>
+<!-- 		<div><button class="link-button" type="submit">Update</button></form></div> -->
 	</div>
 </div>
 </form:form>

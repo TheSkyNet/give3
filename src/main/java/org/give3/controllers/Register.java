@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import org.give3.dao.PersonDao;
 import org.give3.domain.Person;
 import org.give3.domain.Role;
-import org.give3.security.HashEncoderMD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +27,8 @@ public class Register {
     @Autowired
     private PersonDao userDao;
 
-    private PasswordEncoder encoder = new HashEncoderMD5();
+    @Autowired
+    private PasswordEncoder encoder;
     
     public Register() {
     }

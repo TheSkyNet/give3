@@ -2,7 +2,7 @@ package org.give3.controllers;
 
 import org.give3.dao.ItemDao;
 import org.give3.dao.PersonDao;
-import org.give3.dao.PurchaseOrderDao;
+import org.give3.dao.PurchaseOrderDaoInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class Fulfillment {
 
    @Autowired
-   private PurchaseOrderDao orderDao;
+   private PurchaseOrderDaoInterface orderDao;
    
    @Autowired
    private ItemDao itemDao;
@@ -71,11 +71,11 @@ public class Fulfillment {
       this.personDao = personDao;
    }
 
-   public PurchaseOrderDao getOrderDao() {
+   public PurchaseOrderDaoInterface getOrderDao() {
       return orderDao;
    }
 
-   public void setOrderDao(PurchaseOrderDao orderDao) {
+   public void setOrderDao(PurchaseOrderDaoInterface orderDao) {
       this.orderDao = orderDao;
    }
 }

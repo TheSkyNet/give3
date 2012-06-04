@@ -40,7 +40,7 @@
         class="org.give3.dao.DefaultPersonDao"
         p:sessionFactory-ref="sessionFactory"/>
         
-    <bean id="orderDao"
+    <bean id="purchaseOrderDao"
         class="org.give3.dao.PurchaseOrderDao"
         p:sessionFactory-ref="sessionFactory"/>
         
