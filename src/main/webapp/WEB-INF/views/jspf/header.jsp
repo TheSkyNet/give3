@@ -35,7 +35,7 @@ I'm choosing here to avoid duplicate code in controllers, also this is more view
 	<c:choose>
 		<c:when test="${authenticated}" >
 			<a href="/j_spring_security_logout" >logout</a>
-	    	<span>Welcome, <sec:authentication property="principal.username"/></span>
+	    	<span>Welcome</span>
 		</c:when>
 		<c:otherwise>
 			<a href="/login">Login</a>

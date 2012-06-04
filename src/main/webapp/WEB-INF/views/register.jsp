@@ -25,7 +25,7 @@
 <form:form name="f" modelAttribute="person" method="post" class="button-themed" action="/register">
 <div class="form-container">
     <h3>Register</h3>
-    (Your username is your email address)
+    <div>(Your username is your email address)</div>
     <div class="labels">
         <div>Username:</div>
         <div>Password:</div>
