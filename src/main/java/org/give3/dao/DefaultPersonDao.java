@@ -1,13 +1,10 @@
 package org.give3.dao;
 
-
 import java.util.List;
 import java.util.Set;
 
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
-import org.give3.security.HashEncoderMD5;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -17,14 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 
-/**
- *
- */
 public class DefaultPersonDao implements PersonDao {
 
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private PasswordEncoder encoder;
+    
     private HibernateUnProxifier<Person> personUnproxifier = new HibernateUnProxifier<Person>();
     
     public DefaultPersonDao() {
@@ -42,7 +39,6 @@ public class DefaultPersonDao implements PersonDao {
     @Override
     public void updatePassword(String username, String oldRawPassword, String newRawPassword) {
        
-       PasswordEncoder encoder = new HashEncoderMD5();
        Person user = getUser(username);
 
        if( ! encoder.matches(oldRawPassword, user.getPassword()) ) {
@@ -63,7 +59,6 @@ public class DefaultPersonDao implements PersonDao {
     @Override
     public String resetPassword(String username) {
        
-       PasswordEncoder encoder = new HashEncoderMD5();
        Person user = getUser(username);
        // TODO extract random string generation to security package
        

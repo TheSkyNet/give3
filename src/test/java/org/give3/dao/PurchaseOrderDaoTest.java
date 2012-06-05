@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 // TODO use transactional workflow tests too
 
-@ContextConfiguration(locations = { "/spring/applicationContext-dao.xml", "/spring/applicationContext-persistence-test.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-dao.xml", "/spring/applicationContext-persistence-test.xml","/spring/applicationContext-security.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(defaultRollback = true)
 public class PurchaseOrderDaoTest {
