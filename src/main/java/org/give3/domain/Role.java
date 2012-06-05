@@ -3,6 +3,7 @@ package org.give3.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,20 +17,20 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonBackReference;
-
-
+import org.springframework.security.core.GrantedAuthority;
 
 
 /**
  * The tablename "authorities" and column names "username/authority" are conventions for spring security.
  * 
  */
-// TODO use GrantedAuthority interface
 @Entity
 @Table( name="authorities", uniqueConstraints=@UniqueConstraint(columnNames={"username", "authority"}) )
-public class Role implements Serializable {
+public class Role implements GrantedAuthority, Serializable {
 
-    public enum APPLICATION_ROLE {
+   private static final long serialVersionUID = 1L;
+
+   public enum APPLICATION_ROLE {
         ROLE_USER,
         ROLE_ADMIN
     };
@@ -47,7 +48,8 @@ public class Role implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private APPLICATION_ROLE authority = APPLICATION_ROLE.ROLE_USER;
+    @Column(name="authority")
+    private APPLICATION_ROLE role = APPLICATION_ROLE.ROLE_USER;
 
     public Role()
     {
@@ -57,15 +59,19 @@ public class Role implements Serializable {
     public Role(User p, APPLICATION_ROLE a)
     {
         person = p;
-        authority = a;
+        role = a;
     }
 
-    public APPLICATION_ROLE getAuthority() {
-        return authority;
+    public String getAuthority() {
+        return role.toString();
     }
 
-    public void setAuthority(APPLICATION_ROLE authority) {
-        this.authority = authority;
+    public APPLICATION_ROLE getRole() {
+       return role;
+   }
+    
+    public void setRole(APPLICATION_ROLE authority) {
+        this.role = authority;
     }
 
     public long getId() {
