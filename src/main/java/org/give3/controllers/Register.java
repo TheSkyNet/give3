@@ -28,7 +28,7 @@ public class Register {
     private PersonDao userDao;
 
     @Autowired
-    private PasswordEncoder encoder;
+    private PasswordEncoder passwordEncoder;
     
     public Register() {
     }
@@ -50,7 +50,7 @@ public class Register {
     {
        
        String plainPassword = user.getPassword();
-       user.setPassword(encoder.encode(plainPassword));
+       user.setPassword(passwordEncoder.encode(plainPassword));
        
         final Map<String, Object> modelMap = new HashMap<String, Object>();
     

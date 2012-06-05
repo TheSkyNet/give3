@@ -13,7 +13,7 @@
 	
 	 <!-- DispatcherServlet's context is a child context of the ContextLoaderListener's one.
     So they (*-servlet.xml and -security.xml) have different AOP configurations and therefore require different
-    occurences of <global-method-security>.  http://stackoverflow.com/questions/3087548/can-spring-security-use-preauthorize-on-spring-controllers-methods -->
+    occurences of <global-method-security>.  -->
 	<!-- http://stackoverflow.com/questions/3087548/can-spring-security-use-preauthorize-on-spring-controllers-methods -->
     <sec:global-method-security pre-post-annotations="enabled" />
        

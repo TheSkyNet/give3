@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.give3.domain.Person;
 import org.give3.domain.PurchaseOrder;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -20,7 +21,7 @@ public class DefaultPersonDao implements PersonDao {
     private SessionFactory sessionFactory;
 
     @Autowired
-    private PasswordEncoder encoder;
+    private PasswordEncoder passwordEncoder;
     
     private HibernateUnProxifier<Person> personUnproxifier = new HibernateUnProxifier<Person>();
     
@@ -41,11 +42,11 @@ public class DefaultPersonDao implements PersonDao {
        
        Person user = getUser(username);
 
-       if( ! encoder.matches(oldRawPassword, user.getPassword()) ) {
-          throw new BadCredentialsException("Failed to authenticate the existing password when pdating password for user " + username);
+       if( ! passwordEncoder.matches(oldRawPassword, user.getPassword()) ) {
+          throw new BadCredentialsException("Failed to authenticate the existing password when updating password for user " + username);
        }
        
-       user.setPassword(encoder.encode(newRawPassword));
+       user.setPassword(passwordEncoder.encode(newRawPassword));
        updatePerson(user);
     }
     
@@ -63,7 +64,7 @@ public class DefaultPersonDao implements PersonDao {
        // TODO extract random string generation to security package
        
        String newRawPassword = new KarmaKashDaoDefault().generateCode(7);
-       user.setPassword(encoder.encode(newRawPassword));
+       user.setPassword(passwordEncoder.encode(newRawPassword));
        updatePerson(user);
        
        return  newRawPassword;
@@ -97,12 +98,10 @@ public class DefaultPersonDao implements PersonDao {
        Session session = sessionFactory.getCurrentSession();
        Person user = (Person) session.createCriteria(Person.class)
              .add(Restrictions.eq("username", username))
-//             .setFetchMode("roles", FetchMode.JOIN)
-//             .setFetchMode("orders", FetchMode.JOIN)
+             .setFetchMode("roles", FetchMode.JOIN)
+             .setFetchMode("orders", FetchMode.JOIN)
              .uniqueResult();
        Person serializableUser = (user != null) ? personUnproxifier.unproxy(user) : null;
-       serializableUser.setRoles(null);
-       serializableUser.setOrders(null);
        return serializableUser;
     }
     
@@ -149,4 +148,18 @@ public class DefaultPersonDao implements PersonDao {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
+   /**
+    * @return the passwordEncoder
+    */
+   public PasswordEncoder getPasswordEncoder() {
+      return passwordEncoder;
+   }
+
+   /**
+    * @param passwordEncoder the passwordEncoder to set
+    */
+   public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+      this.passwordEncoder = passwordEncoder;
+   }
 }

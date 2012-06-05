@@ -18,7 +18,7 @@
     </http>
 
 
-	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
 	
     <!-- datasource here links to a database with minimum schema defined like so... -->
     <!-- http://static.springsource.org/spring-security/site/docs/3.0.x/reference/appendix-schema.html -->

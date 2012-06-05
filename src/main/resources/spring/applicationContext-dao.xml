@@ -38,13 +38,13 @@
 
     <bean id="personDao"
         class="org.give3.dao.DefaultPersonDao"
-        p:sessionFactory-ref="sessionFactory"/>
+        p:sessionFactory-ref="sessionFactory"
+        p:passwordEncoder-ref="passwordEncoder" />
         
     <bean id="purchaseOrderDao"
         class="org.give3.dao.PurchaseOrderDao"
         p:sessionFactory-ref="sessionFactory"/>
         
     <bean class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer" />
-
-    
+    	
 </beans>
