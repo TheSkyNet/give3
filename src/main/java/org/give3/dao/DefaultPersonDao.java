@@ -3,7 +3,7 @@ package org.give3.dao;
 import java.util.List;
 import java.util.Set;
 
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
@@ -23,7 +23,7 @@ public class DefaultPersonDao implements PersonDao {
     @Autowired
     private PasswordEncoder passwordEncoder;
     
-    private HibernateUnProxifier<Person> personUnproxifier = new HibernateUnProxifier<Person>();
+    private HibernateUnProxifier<User> personUnproxifier = new HibernateUnProxifier<User>();
     
     public DefaultPersonDao() {
 
@@ -31,7 +31,7 @@ public class DefaultPersonDao implements PersonDao {
     
     @Transactional
     @Override
-    public boolean isUserPresent(Person user)
+    public boolean isUserPresent(User user)
     {
         return getUser(user.getUsername()) != null;
     }
@@ -40,7 +40,7 @@ public class DefaultPersonDao implements PersonDao {
     @Override
     public void updatePassword(String username, String oldRawPassword, String newRawPassword) {
        
-       Person user = getUser(username);
+       User user = getUser(username);
 
        if( ! passwordEncoder.matches(oldRawPassword, user.getPassword()) ) {
           throw new BadCredentialsException("Failed to authenticate the existing password when updating password for user " + username);
@@ -60,7 +60,7 @@ public class DefaultPersonDao implements PersonDao {
     @Override
     public String resetPassword(String username) {
        
-       Person user = getUser(username);
+       User user = getUser(username);
        // TODO extract random string generation to security package
        
        String newRawPassword = new KarmaKashDaoDefault().generateCode(7);
@@ -76,7 +76,7 @@ public class DefaultPersonDao implements PersonDao {
      */
     @Transactional
     @Override
-    public void createNewUser(Person user)
+    public void createNewUser(User user)
     {
         Session session = sessionFactory.getCurrentSession();
         session.save(user);
@@ -86,7 +86,7 @@ public class DefaultPersonDao implements PersonDao {
     @Transactional
     @Override
     public Set<PurchaseOrder> getOrders(String username) {
-       Person user = getUser(username);
+       User user = getUser(username);
        HibernateUnProxifier<List<PurchaseOrder>> orderUnproxifier = new HibernateUnProxifier<List<PurchaseOrder>>();
        Set<PurchaseOrder> orders = orderUnproxifier.unproxy(user.getOrders());
        return orders;
@@ -94,31 +94,31 @@ public class DefaultPersonDao implements PersonDao {
 
     @Transactional
     @Override
-    public Person getUserSerializable(String username) {
+    public User getUserSerializable(String username) {
        Session session = sessionFactory.getCurrentSession();
-       Person user = (Person) session.createCriteria(Person.class)
+       User user = (User) session.createCriteria(User.class)
              .add(Restrictions.eq("username", username))
              .setFetchMode("roles", FetchMode.JOIN)
              .setFetchMode("orders", FetchMode.JOIN)
              .uniqueResult();
-       Person serializableUser = (user != null) ? personUnproxifier.unproxy(user) : null;
+       User serializableUser = (user != null) ? personUnproxifier.unproxy(user) : null;
        return serializableUser;
     }
     
     @Transactional
     @Override
-    public Person getUser(String username) {
+    public User getUser(String username) {
        Session session = sessionFactory.getCurrentSession();
-       Person user = (Person) session.createCriteria(Person.class).add(Restrictions.eq("username", username)).uniqueResult();
+       User user = (User) session.createCriteria(User.class).add(Restrictions.eq("username", username)).uniqueResult();
        return user;
     }
 
     @Transactional
     @Override
-    public void deleteUser(Person user)
+    public void deleteUser(User user)
     {
        Session session = sessionFactory.getCurrentSession();
-       Person attachedObject = getUser(user.getUsername());
+       User attachedObject = getUser(user.getUsername());
 
        // deletes should be cascaded to authorities table
        session.delete(attachedObject);
@@ -128,10 +128,10 @@ public class DefaultPersonDao implements PersonDao {
     @SuppressWarnings("unchecked")
     @Transactional
     @Override
-    public List<Person> getUsers() {
+    public List<User> getUsers() {
 
        Session session = sessionFactory.getCurrentSession();
-       List<Person> users = session.createQuery("select p from Person p").list();
+       List<User> users = session.createQuery("select p from Person p").list();
 
        return users;
 
@@ -139,7 +139,7 @@ public class DefaultPersonDao implements PersonDao {
 
     @Transactional
     @Override
-    public void updatePerson(Person user) {
+    public void updatePerson(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.merge(user);
         session.flush();

@@ -43,7 +43,7 @@ public class Role implements Serializable {
     @JoinColumn(name="username")
     @NotNull
     @JsonBackReference
-    private Person person;
+    private User person;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -54,7 +54,7 @@ public class Role implements Serializable {
         
     }
 
-    public Role(Person p, APPLICATION_ROLE a)
+    public Role(User p, APPLICATION_ROLE a)
     {
         person = p;
         authority = a;
@@ -76,11 +76,11 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public Person getPerson() {
+    public User getPerson() {
         return person;
     }
 
-    public void setPerson(Person person) {
+    public void setPerson(User person) {
         this.person = person;
     }
 

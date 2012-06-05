@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.give3.dao.PersonDao;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,13 +38,13 @@ public class Register {
 
        // person is bound to the form components, see @SessionAttribute above
        Map<String, Object> modelMap = new HashMap<String, Object>();
-       modelMap.put("person", new Person());
+       modelMap.put("person", new User());
        return new ModelAndView("register", modelMap);
     }
 
     
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView createNewUser(final @Valid @ModelAttribute Person user,
+    public ModelAndView createNewUser(final @Valid @ModelAttribute User user,
                                       final BindingResult result,
                                       final SessionStatus status)
     {
@@ -59,7 +59,7 @@ public class Register {
         if (userDao.isUserPresent(user))
         {
             result.rejectValue("username", "", "user already exists");
-            modelMap.put("person", new Person());
+            modelMap.put("person", new User());
         }
 
         if (! result.hasErrors())

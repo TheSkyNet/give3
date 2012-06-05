@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.give3.dao.PersonDao;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.give3.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ public class Account {
     public ModelAndView getUserAccount(Principal principal) throws Exception {
 
        Set<PurchaseOrder> orders = userDao.getOrders(principal.getName());
-       Person user = userDao.getUserSerializable(principal.getName());
+       User user = userDao.getUserSerializable(principal.getName());
        Map<String, Object> modelMap = new HashMap<String, Object>();
        modelMap.put("user", user);
        modelMap.put("orders", orders);
@@ -92,7 +92,7 @@ public class Account {
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public ModelAndView fullfillOrder(Model model, Principal principal, @RequestParam(value = "emailAddress", required = true) String emailAddress) {
        
-       Person user = userDao.getUser(principal.getName());
+       User user = userDao.getUser(principal.getName());
 
        userDao.updatePerson(user);
        

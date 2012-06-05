@@ -10,7 +10,7 @@ import org.give3.dao.ItemDao;
 import org.give3.dao.OrderFailedException;
 import org.give3.dao.PersonDao;
 import org.give3.domain.Item;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -109,7 +109,7 @@ public class ItemController {
       // TODO handle if item doesn't exist
 
       Item item = dao.getById(id);
-      Person user = personDao.getUser(principal.getName());
+      User user = personDao.getUser(principal.getName());
       
       model.addAttribute("item", item);
       model.addAttribute("user", user);

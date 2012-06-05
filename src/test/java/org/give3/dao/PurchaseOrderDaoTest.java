@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.give3.domain.Item;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.give3.domain.PurchaseOrder;
 import org.give3.domain.Role;
 import org.give3.domain.Role.APPLICATION_ROLE;
@@ -38,7 +38,7 @@ public class PurchaseOrderDaoTest {
    @Autowired
    private PersonDao personDao;
    
-   private Person user = new Person("j@y.com", "baba327d241746ee0829e7e88117d4d5", 1000000);
+   private User user = new User("j@y.com", "baba327d241746ee0829e7e88117d4d5", 1000000);
    
    @Before
    public void setup() {

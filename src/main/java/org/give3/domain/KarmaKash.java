@@ -42,7 +42,7 @@ public class KarmaKash {
    @ManyToOne()
    @JoinColumn(name="username")
    @JsonBackReference
-   private Person redeemedBy;
+   private User redeemedBy;
    
    @Basic
 	@NotNull
@@ -84,14 +84,14 @@ public class KarmaKash {
    /**
     * @return the redeemedBy
     */
-   public Person getRedeemedBy() {
+   public User getRedeemedBy() {
       return redeemedBy;
    }
 
    /**
     * @param redeemedBy the redeemedBy to set
     */
-   public void setRedeemedBy(Person redeemedBy) {
+   public void setRedeemedBy(User redeemedBy) {
       this.redeemedBy = redeemedBy;
    }
 

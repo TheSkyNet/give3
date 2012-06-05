@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.give3.dao.PersonDao;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

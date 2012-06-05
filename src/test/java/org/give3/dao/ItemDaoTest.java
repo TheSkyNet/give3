@@ -7,7 +7,7 @@ import java.util.List;
 import javax.validation.ConstraintViolationException;
 
 import org.give3.domain.Item;
-import org.give3.domain.Person;
+import org.give3.domain.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +33,7 @@ public class ItemDaoTest {
    @Autowired
    private PersonDao personDao;
    
-   private Person user = new Person("j@y.com", "baba327d241746ee0829e7e88117d4d5", 1000000);
+   private User user = new User("j@y.com", "baba327d241746ee0829e7e88117d4d5", 1000000);
    
    @Before
    public void setup() {
@@ -71,7 +71,7 @@ public class ItemDaoTest {
    public void placeOrder() throws Exception {
       
       // TODO this doesn't work if you use the "user" defined at the class level
-      Person p = new Person("j@y2.com", "baba327d241746ee0829e7e88117d4d5", 10);
+      User p = new User("j@y2.com", "baba327d241746ee0829e7e88117d4d5", 10);
       personDao.createNewUser(p);
       
       assertEquals(0, p.getOrders().size());
